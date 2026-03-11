@@ -17,10 +17,10 @@ type DeleteConfirmDialogProps = {
 export function DeleteConfirmDialog({ open, onOpenChange, onConfirm }: DeleteConfirmDialogProps) {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-sm">
+      <DialogContent className="bg-cream-bg sm:max-w-sm">
         <DialogHeader>
-          <DialogTitle>Delete Order</DialogTitle>
-          <DialogDescription>
+          <DialogTitle className="font-bold tracking-tight">Delete Order</DialogTitle>
+          <DialogDescription className="font-mono text-[11px] uppercase tracking-[0.05em]">
             Are you sure you want to delete this order? This action cannot be undone.
           </DialogDescription>
         </DialogHeader>

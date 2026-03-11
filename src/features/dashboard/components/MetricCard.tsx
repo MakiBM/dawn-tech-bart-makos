@@ -1,22 +1,29 @@
-import type { LucideIcon } from 'lucide-react'
-import { Card, CardContent, CardHeader, CardTitle } from '@/shared/components/ui/card'
-
 type MetricCardProps = {
   title: string
   value: string
-  icon: LucideIcon
+  bottomLeft?: string
+  bottomRight?: string
 }
 
-export function MetricCard({ title, value, icon: Icon }: MetricCardProps) {
+export function MetricCard({ title, value, bottomLeft, bottomRight }: MetricCardProps) {
   return (
-    <Card>
-      <CardHeader className="flex flex-row items-center justify-between pb-2">
-        <CardTitle className="text-sm font-medium text-muted-foreground">{title}</CardTitle>
-        <Icon className="h-4 w-4 text-muted-foreground" />
-      </CardHeader>
-      <CardContent>
-        <div className="text-2xl font-bold">{value}</div>
-      </CardContent>
-    </Card>
+    <div className="border-t border-dark-border pt-6">
+      <h3 className="font-mono text-[11px] uppercase tracking-[0.05em] text-dark-muted">
+        {title}
+      </h3>
+
+      <div
+        className="mt-4 font-bold leading-none tracking-tight text-dark-fg"
+        style={{ fontSize: 'clamp(2.5rem, 5vw, 4rem)', letterSpacing: '-0.02em' }}
+      >
+        {value}
+      </div>
+
+      {(bottomLeft || bottomRight) && (
+        <div className="mt-6 font-mono text-[11px] uppercase tracking-[0.05em] text-dark-muted">
+          {bottomLeft} __ {bottomRight}
+        </div>
+      )}
+    </div>
   )
 }

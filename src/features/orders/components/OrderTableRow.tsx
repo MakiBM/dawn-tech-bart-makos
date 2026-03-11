@@ -12,12 +12,12 @@ type OrderTableRowProps = {
 
 export function OrderTableRow({ order, onEdit, onDelete }: OrderTableRowProps) {
   return (
-    <TableRow>
-      <TableCell className="font-mono text-xs">{order.id.slice(0, 8)}</TableCell>
-      <TableCell>{order.destinationCountry}</TableCell>
-      <TableCell>{formatDate(order.shippingDate)}</TableCell>
-      <TableCell className="text-right">{formatCurrency(order.price)}</TableCell>
-      <TableCell className="text-right">
+    <TableRow className="hover:bg-transparent">
+      <TableCell className="px-4 py-6 font-mono text-xs">{order.id.slice(0, 8)}</TableCell>
+      <TableCell className="px-4 py-6 text-lg tracking-tight">{order.destinationCountry}</TableCell>
+      <TableCell className="px-4 py-6 font-mono text-xs text-cream-muted">{formatDate(order.shippingDate)}</TableCell>
+      <TableCell className="px-4 py-6 text-right font-mono text-xs">{formatCurrency(order.price)}</TableCell>
+      <TableCell className="px-4 py-6 text-right">
         <div className="flex justify-end gap-1">
           <Button variant="ghost" size="icon" onClick={() => onEdit(order)}>
             <Pencil className="h-4 w-4" />

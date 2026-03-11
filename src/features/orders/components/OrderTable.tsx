@@ -14,17 +14,19 @@ type OrderTableProps = {
   onDelete: (order: Order) => void
 }
 
+const thClass = 'font-mono text-[11px] uppercase tracking-[0.05em] font-normal text-cream-muted px-4'
+
 export function OrderTable({ orders, onEdit, onDelete }: OrderTableProps) {
   return (
-    <div className="rounded-md border">
-      <Table>
+    <div className="overflow-x-auto">
+      <Table className="min-w-[560px]">
         <TableHeader>
           <TableRow>
-            <TableHead className="w-24">ID</TableHead>
-            <TableHead>Country</TableHead>
-            <TableHead>Shipping Date</TableHead>
-            <TableHead className="text-right">Price</TableHead>
-            <TableHead className="w-24 text-right">Actions</TableHead>
+            <TableHead className={`w-28 ${thClass}`}>ID</TableHead>
+            <TableHead className={thClass}>Country</TableHead>
+            <TableHead className={thClass}>Shipping Date</TableHead>
+            <TableHead className={`text-right ${thClass}`}>Price</TableHead>
+            <TableHead className={`w-28 text-right ${thClass}`}>Actions</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>

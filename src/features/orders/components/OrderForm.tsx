@@ -79,17 +79,17 @@ export function OrderForm({ open, onOpenChange, onSubmit, order }: OrderFormProp
 
   return (
     <Dialog open={open} onOpenChange={handleOpenChange}>
-      <DialogContent className="sm:max-w-md">
+      <DialogContent className="bg-cream-bg sm:max-w-md">
         <DialogHeader>
-          <DialogTitle>{isEdit ? 'Edit Order' : 'New Order'}</DialogTitle>
-          <DialogDescription>
+          <DialogTitle className="font-bold tracking-tight">{isEdit ? 'Edit Order' : 'New Order'}</DialogTitle>
+          <DialogDescription className="font-mono text-[11px] uppercase tracking-[0.05em]">
             {isEdit ? 'Update the order details below.' : 'Fill in the details to create a new order.'}
           </DialogDescription>
         </DialogHeader>
 
         <form onSubmit={handleSubmit(handleFormSubmit)} className="space-y-4">
           <div className="space-y-2">
-            <Label htmlFor="destinationCountry">Destination Country</Label>
+            <Label htmlFor="destinationCountry" className="font-mono text-[11px] uppercase tracking-[0.05em]">Destination Country</Label>
             <Select
               value={selectedCountry}
               onValueChange={(v) => setValue('destinationCountry', v, { shouldValidate: true })}
@@ -111,7 +111,7 @@ export function OrderForm({ open, onOpenChange, onSubmit, order }: OrderFormProp
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="shippingDate">Shipping Date</Label>
+            <Label htmlFor="shippingDate" className="font-mono text-[11px] uppercase tracking-[0.05em]">Shipping Date</Label>
             <Input id="shippingDate" type="date" {...register('shippingDate')} />
             {errors.shippingDate && (
               <p className="text-sm text-destructive">{errors.shippingDate.message}</p>
@@ -119,7 +119,7 @@ export function OrderForm({ open, onOpenChange, onSubmit, order }: OrderFormProp
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="price">Price (cents)</Label>
+            <Label htmlFor="price" className="font-mono text-[11px] uppercase tracking-[0.05em]">Price (cents)</Label>
             <Input
               id="price"
               type="number"

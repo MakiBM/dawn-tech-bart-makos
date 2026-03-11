@@ -1,5 +1,4 @@
 import { Component, type ErrorInfo, type ReactNode } from 'react'
-import { Button } from '@/shared/components/ui/button'
 
 type Props = {
   children: ReactNode
@@ -29,15 +28,22 @@ export class ErrorBoundary extends Component<Props, State> {
     if (this.state.hasError) {
       if (this.props.fallback) return this.props.fallback
       return (
-        <div className="flex flex-col items-center justify-center gap-4 p-8">
-          <h2 className="text-lg font-semibold">Something went wrong</h2>
-          <p className="text-sm text-muted-foreground">{this.state.error?.message}</p>
-          <Button
-            variant="outline"
+        <div className="py-12">
+          <h2
+            className="font-bold tracking-tight"
+            style={{ fontSize: 'clamp(1.5rem, 3vw, 2.5rem)', letterSpacing: '-0.02em' }}
+          >
+            Something went wrong
+          </h2>
+          <p className="mt-4 font-mono text-[11px] uppercase tracking-[0.05em] text-cream-muted">
+            {this.state.error?.message}
+          </p>
+          <button
+            className="mt-6 font-mono text-[11px] uppercase tracking-[0.05em] underline underline-offset-4 hover:opacity-70"
             onClick={() => this.setState({ hasError: false, error: null })}
           >
             Try again
-          </Button>
+          </button>
         </div>
       )
     }

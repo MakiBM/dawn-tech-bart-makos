@@ -1,13 +1,9 @@
 import { Outlet } from 'react-router'
-import { Sidebar } from '@/shared/components/layout/Sidebar'
 
 export function RootLayout() {
   return (
-    <div className="flex h-screen overflow-hidden">
-      <Sidebar />
-      <main className="flex-1 overflow-y-auto p-6">
-        <Outlet />
-      </main>
+    <div className="flex min-h-screen flex-col">
+      <Outlet />
     </div>
   )
 }

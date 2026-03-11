@@ -1,10 +1,8 @@
 import { useState, useCallback } from 'react'
-import { Plus } from 'lucide-react'
 import type { Order } from '@/types/order'
 import type { OrderFormValues } from '@/schemas/order-schema'
 import { useOrderStore } from '@/store/order-store'
-import { PageHeader } from '@/shared/components/layout/PageHeader'
-import { Button } from '@/shared/components/ui/button'
+import { AppHeader } from '@/shared/components/layout/AppHeader'
 import { ErrorBoundary } from '@/shared/components/ErrorBoundary'
 import { OrderTable } from './components/OrderTable'
 import { OrderForm } from './components/OrderForm'
@@ -38,7 +36,6 @@ export function OrdersPage() {
   }, [])
 
   function handleSubmit(values: OrderFormValues) {
-    // Close immediately — optimistic update already applied by store
     setFormOpen(false)
     setEditingOrder(undefined)
 
@@ -53,40 +50,51 @@ export function OrdersPage() {
     if (!deletingOrder) return
     const id = deletingOrder.id
 
-    // Close immediately — optimistic removal already applied by store
     setDeletingOrder(undefined)
     removeOrder(id).catch(() => {})
   }
 
   return (
-    <div className="space-y-6">
-      <PageHeader
-        title="Orders"
-        description="Manage your shipping orders"
-        action={
-          <Button onClick={openCreate}>
-            <Plus className="mr-2 h-4 w-4" />
-            New Order
-          </Button>
-        }
-      />
-
-      {error && (
-        <div className="flex items-center justify-between rounded-md border border-destructive/50 bg-destructive/10 px-4 py-3">
-          <p className="text-sm text-destructive">{error}</p>
-          <Button variant="ghost" size="sm" onClick={clearError}>
-            Dismiss
-          </Button>
+    <section className="flex min-h-screen flex-col bg-cream-bg text-cream-fg">
+      <AppHeader variant="light" />
+      <div className="flex-1 px-4 py-8 sm:px-8 md:px-12 md:py-12">
+        <div className="flex flex-wrap items-center justify-between gap-4 border-b border-cream-border pb-6">
+          <h2
+            className="font-bold tracking-tight"
+            style={{ fontSize: 'clamp(1.5rem, 3vw, 2.5rem)', letterSpacing: '-0.02em' }}
+          >
+            Order Overview &rarr;
+          </h2>
+          <button
+            onClick={openCreate}
+            className="font-mono text-[11px] uppercase tracking-[0.05em] text-cream-fg underline underline-offset-4 hover:opacity-70"
+          >
+            + New Order
+          </button>
         </div>
-      )}
 
-      <ErrorBoundary>
-        {orders.length === 0 ? (
-          <EmptyState onCreateOrder={openCreate} />
-        ) : (
-          <OrderTable orders={orders} onEdit={openEdit} onDelete={openDelete} />
+        {error && (
+          <div className="mt-6 flex items-center justify-between border border-cream-border bg-cream-bg px-6 py-4">
+            <p className="font-mono text-[11px] uppercase tracking-[0.05em] text-destructive">{error}</p>
+            <button
+              onClick={clearError}
+              className="font-mono text-[11px] uppercase tracking-[0.05em] text-cream-muted underline underline-offset-4 hover:opacity-70"
+            >
+              Dismiss
+            </button>
+          </div>
         )}
-      </ErrorBoundary>
+
+        <ErrorBoundary>
+          {orders.length === 0 ? (
+            <EmptyState onCreateOrder={openCreate} />
+          ) : (
+            <div className="mt-6">
+              <OrderTable orders={orders} onEdit={openEdit} onDelete={openDelete} />
+            </div>
+          )}
+        </ErrorBoundary>
+      </div>
 
       <OrderForm
         open={formOpen}
@@ -100,6 +108,6 @@ export function OrdersPage() {
         onOpenChange={(open) => !open && setDeletingOrder(undefined)}
         onConfirm={handleDelete}
       />
-    </div>
+    </section>
   )
 }
