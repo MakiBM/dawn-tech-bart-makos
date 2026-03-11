@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { orderSchema, type OrderFormValues } from '@/schemas/order-schema'
+import { orderSchema, type OrderFormValues } from '@/features/orders/order-schema'
 import type { Order } from '@/types/order'
 import { countries } from '@/shared/lib/countries'
 import {

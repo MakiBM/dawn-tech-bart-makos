@@ -31,17 +31,18 @@ src/
   app/               # App shell, router, layouts
   features/
     dashboard/       # Metric cards derived from store
-    orders/          # Table, CRUD form, delete dialog
+    orders/          # Table, CRUD form, delete dialog, Zod schema
   shared/
     components/ui/   # shadcn/ui primitives
-    components/layout/ # Sidebar, PageHeader
+    components/layout/ # AppHeader
     lib/             # Utilities (cn, format, countries)
   store/             # Zustand store + derived selectors
   services/          # Async service layer (simulated API)
-  schemas/           # Zod validation schemas
   types/             # TypeScript type definitions
   dev/               # Dev-only error simulation toolbar
 ```
+
+Hybrid structure: feature folders for UI and feature-scoped logic, global folders for cross-feature infrastructure. `store/`, `types/`, and `services/` sit at the top level because both `dashboard` and `orders` features consume them — nesting them under one feature would create misleading cross-feature imports. Feature-scoped modules (like the Zod validation schema, only used by `orders/`) live inside their feature.
 
 ## Key Design Decisions
 
@@ -58,10 +59,6 @@ src/
 **Layered error boundaries** — App-level (catastrophic), route-level (page isolation), component-level (table errors don't block "New Order" button). Each layer has appropriate recovery UI.
 
 **Dev error simulation** — Floating toolbar (DEV only) with toggles to force service failures and slow network. Reviewers can verify error UX without code changes.
-
-**Why React Router v7** — SPA requirement with no SSR. File-based routing optional, v7 has loaders/actions for future API layer, smaller bundle than a meta-framework. Recruitment test scope doesn't justify Next.js/TanStack Start complexity.
-
-**Why Zustand over Redux Toolkit** — Minimal boilerplate with no providers/reducers/actions ceremony. Built-in persist middleware, first-class TypeScript. Sufficient for a single-store app — RTK would add ~30KB+ for no benefit at this scale.
 
 ## Testing
 

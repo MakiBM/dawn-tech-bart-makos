@@ -1,6 +1,6 @@
 import { useState, useCallback } from 'react'
 import type { Order } from '@/types/order'
-import type { OrderFormValues } from '@/schemas/order-schema'
+import type { OrderFormValues } from '@/features/orders/order-schema'
 import { useOrderStore } from '@/store/order-store'
 import { AppHeader } from '@/shared/components/layout/AppHeader'
 import { ErrorBoundary } from '@/shared/components/ErrorBoundary'
