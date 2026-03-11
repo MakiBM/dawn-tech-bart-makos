@@ -13,7 +13,6 @@ import { EmptyState } from './components/EmptyState'
 
 export function OrdersPage() {
   const orders = useOrderStore((s) => s.orders)
-  const loading = useOrderStore((s) => s.loading)
   const error = useOrderStore((s) => s.error)
   const addOrder = useOrderStore((s) => s.addOrder)
   const editOrder = useOrderStore((s) => s.editOrder)
@@ -38,20 +37,25 @@ export function OrdersPage() {
     setDeletingOrder(order)
   }, [])
 
-  async function handleSubmit(values: OrderFormValues) {
-    if (editingOrder) {
-      await editOrder(editingOrder.id, values)
-    } else {
-      await addOrder(values)
-    }
+  function handleSubmit(values: OrderFormValues) {
+    // Close immediately — optimistic update already applied by store
     setFormOpen(false)
     setEditingOrder(undefined)
+
+    if (editingOrder) {
+      editOrder(editingOrder.id, values).catch(() => {})
+    } else {
+      addOrder(values).catch(() => {})
+    }
   }
 
-  async function handleDelete() {
+  function handleDelete() {
     if (!deletingOrder) return
-    await removeOrder(deletingOrder.id)
+    const id = deletingOrder.id
+
+    // Close immediately — optimistic removal already applied by store
     setDeletingOrder(undefined)
+    removeOrder(id).catch(() => {})
   }
 
   return (
@@ -95,7 +99,6 @@ export function OrdersPage() {
         open={!!deletingOrder}
         onOpenChange={(open) => !open && setDeletingOrder(undefined)}
         onConfirm={handleDelete}
-        loading={loading}
       />
     </div>
   )

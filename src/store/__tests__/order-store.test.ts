@@ -28,7 +28,7 @@ function fakeUpdated(order: Order, input: UpdateOrderInput): Order {
 
 describe('orderStore', () => {
   beforeEach(() => {
-    useOrderStore.setState({ orders: [], loading: false, error: null })
+    useOrderStore.setState({ orders: [], error: null })
     vi.clearAllMocks()
     mockCreate.mockImplementation(async (input) => fakeOrder(input))
     mockUpdate.mockImplementation(async (order, input) => fakeUpdated(order, input))

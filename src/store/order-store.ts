@@ -6,7 +6,6 @@ import * as orderService from '@/services/order-service'
 
 type OrderState = {
   orders: Order[]
-  loading: boolean
   error: string | null
 
   addOrder: (input: CreateOrderInput) => Promise<void>
@@ -19,7 +18,6 @@ export const useOrderStore = create<OrderState>()(
   persist(
     (set, get) => ({
       orders: [],
-      loading: false,
       error: null,
 
       addOrder: async (input) => {
@@ -32,21 +30,16 @@ export const useOrderStore = create<OrderState>()(
           updatedAt: now,
         }
 
-        // Optimistic: add immediately
-        set((s) => ({ orders: [...s.orders, optimistic], loading: true, error: null }))
+        set((s) => ({ orders: [...s.orders, optimistic], error: null }))
 
         try {
           const real = await orderService.createOrder(input)
-          // Replace optimistic with server response
           set((s) => ({
             orders: s.orders.map((o) => (o.id === optimisticId ? real : o)),
-            loading: false,
           }))
         } catch (e) {
-          // Rollback
           set((s) => ({
             orders: s.orders.filter((o) => o.id !== optimisticId),
-            loading: false,
             error: (e as Error).message,
           }))
           throw e
@@ -62,10 +55,8 @@ export const useOrderStore = create<OrderState>()(
 
         const optimistic: Order = { ...prev, ...input, updatedAt: new Date().toISOString() }
 
-        // Optimistic: apply changes immediately
         set((s) => ({
           orders: s.orders.map((o) => (o.id === id ? optimistic : o)),
-          loading: true,
           error: null,
         }))
 
@@ -73,13 +64,10 @@ export const useOrderStore = create<OrderState>()(
           const real = await orderService.updateOrder(prev, input)
           set((s) => ({
             orders: s.orders.map((o) => (o.id === id ? real : o)),
-            loading: false,
           }))
         } catch (e) {
-          // Rollback to previous
           set((s) => ({
             orders: s.orders.map((o) => (o.id === id ? prev : o)),
-            loading: false,
             error: (e as Error).message,
           }))
           throw e
@@ -91,19 +79,15 @@ export const useOrderStore = create<OrderState>()(
         const removed = prev.find((o) => o.id === id)
         if (!removed) return
 
-        // Optimistic: remove immediately
         set((s) => ({
           orders: s.orders.filter((o) => o.id !== id),
-          loading: true,
           error: null,
         }))
 
         try {
           await orderService.deleteOrder(id)
-          set({ loading: false })
         } catch (e) {
-          // Rollback
-          set({ orders: prev, loading: false, error: (e as Error).message })
+          set({ orders: prev, error: (e as Error).message })
           throw e
         }
       },

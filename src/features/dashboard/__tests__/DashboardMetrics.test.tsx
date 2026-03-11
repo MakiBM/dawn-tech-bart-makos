@@ -5,7 +5,7 @@ import { DashboardMetrics } from '../components/DashboardMetrics'
 
 describe('DashboardMetrics', () => {
   beforeEach(() => {
-    useOrderStore.setState({ orders: [], loading: false, error: null })
+    useOrderStore.setState({ orders: [], error: null })
   })
 
   it('renders zero metrics when no orders', () => {

@@ -5,7 +5,7 @@ import { useDashboardMetrics } from '../selectors'
 
 describe('useDashboardMetrics', () => {
   beforeEach(() => {
-    useOrderStore.setState({ orders: [], loading: false, error: null })
+    useOrderStore.setState({ orders: [], error: null })
   })
 
   it('returns zeros for empty state', () => {

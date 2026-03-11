@@ -7,16 +7,14 @@ import {
   DialogTitle,
 } from '@/shared/components/ui/dialog'
 import { Button } from '@/shared/components/ui/button'
-import { Loader2 } from 'lucide-react'
 
 type DeleteConfirmDialogProps = {
   open: boolean
   onOpenChange: (open: boolean) => void
-  onConfirm: () => Promise<void>
-  loading: boolean
+  onConfirm: () => void
 }
 
-export function DeleteConfirmDialog({ open, onOpenChange, onConfirm, loading }: DeleteConfirmDialogProps) {
+export function DeleteConfirmDialog({ open, onOpenChange, onConfirm }: DeleteConfirmDialogProps) {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-sm">
@@ -27,11 +25,10 @@ export function DeleteConfirmDialog({ open, onOpenChange, onConfirm, loading }: 
           </DialogDescription>
         </DialogHeader>
         <DialogFooter>
-          <Button variant="outline" onClick={() => onOpenChange(false)} disabled={loading}>
+          <Button variant="outline" onClick={() => onOpenChange(false)}>
             Cancel
           </Button>
-          <Button variant="destructive" onClick={onConfirm} disabled={loading}>
-            {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+          <Button variant="destructive" onClick={onConfirm}>
             Delete
           </Button>
         </DialogFooter>

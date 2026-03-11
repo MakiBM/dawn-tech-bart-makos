@@ -22,12 +22,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/shared/components/ui/select'
-import { Loader2 } from 'lucide-react'
 
 type OrderFormProps = {
   open: boolean
   onOpenChange: (open: boolean) => void
-  onSubmit: (values: OrderFormValues) => Promise<void>
+  onSubmit: (values: OrderFormValues) => void
   order?: Order
 }
 
@@ -54,13 +53,12 @@ export function OrderForm({ open, onOpenChange, onSubmit, order }: OrderFormProp
     setValue,
     watch,
     reset,
-    formState: { errors, isSubmitting },
+    formState: { errors },
   } = useForm<OrderFormValues>({
     resolver: zodResolver(orderSchema),
     defaultValues: emptyDefaults,
   })
 
-  // Sync form values when order prop changes (create vs edit)
   useEffect(() => {
     if (open) {
       reset(order ? orderToFormValues(order) : emptyDefaults)
@@ -69,8 +67,8 @@ export function OrderForm({ open, onOpenChange, onSubmit, order }: OrderFormProp
 
   const selectedCountry = watch('destinationCountry')
 
-  async function handleFormSubmit(values: OrderFormValues) {
-    await onSubmit(values)
+  function handleFormSubmit(values: OrderFormValues) {
+    onSubmit(values)
     reset()
   }
 
@@ -137,8 +135,7 @@ export function OrderForm({ open, onOpenChange, onSubmit, order }: OrderFormProp
             <Button type="button" variant="outline" onClick={() => handleOpenChange(false)}>
               Cancel
             </Button>
-            <Button type="submit" disabled={isSubmitting}>
-              {isSubmitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+            <Button type="submit">
               {isEdit ? 'Save Changes' : 'Create Order'}
             </Button>
           </DialogFooter>

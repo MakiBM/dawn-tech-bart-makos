@@ -7,7 +7,7 @@ describe('OrderForm', () => {
   const defaultProps = {
     open: true,
     onOpenChange: vi.fn(),
-    onSubmit: vi.fn().mockResolvedValue(undefined),
+    onSubmit: vi.fn(),
   }
 
   it('renders create mode', () => {
@@ -49,7 +49,7 @@ describe('OrderForm', () => {
 
   it('submits valid form data', async () => {
     const user = userEvent.setup()
-    const onSubmit = vi.fn().mockResolvedValue(undefined)
+    const onSubmit = vi.fn()
     render(<OrderForm {...defaultProps} onSubmit={onSubmit} />)
 
     // Select country using Radix Select

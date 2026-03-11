@@ -33,10 +33,16 @@ async function simulateNetwork(): Promise<void> {
   await delay(ms)
 }
 
+const failureMessages: Record<string, string> = {
+  create: 'Failed to create order. Please try again.',
+  update: 'Failed to save changes. Please try again.',
+  delete: 'Failed to delete order. Please try again.',
+}
+
 function checkFailure(flag: keyof DevConfig, operation: string): void {
   if (devConfig[flag]) {
     devConfig[flag] = false
-    throw new Error(`Simulated ${operation} failure`)
+    throw new Error(failureMessages[operation] ?? 'Something went wrong. Please try again.')
   }
 }
 
