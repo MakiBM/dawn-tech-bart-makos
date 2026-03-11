@@ -4,16 +4,16 @@ A React-based order management dashboard with full CRUD operations, real-time me
 
 ## Tech Stack
 
-| Layer | Choice |
-|---|---|
-| Framework | React 19 + TypeScript |
-| Build | Vite 7 |
-| State | Zustand v5 + persist middleware |
-| Routing | React Router v7 |
-| Styling | Tailwind CSS v4 |
-| Forms | React Hook Form + Zod v4 |
-| Testing | Vitest + React Testing Library |
-| UI | shadcn/ui (Radix primitives) |
+| Layer     | Choice                          |
+|-----------|---------------------------------|
+| Framework | React 19 + TypeScript           |
+| Build     | Vite 7                          |
+| State     | Zustand v5 + persist middleware |
+| Routing   | React Router v7                 |
+| Styling   | Tailwind CSS v4                 |
+| Forms     | React Hook Form + Zod v4        |
+| Testing   | Vitest + React Testing Library  |
+| UI        | shadcn/ui (Radix primitives)    |
 
 ## Quick Start
 
@@ -61,7 +61,7 @@ src/
 
 ## Testing
 
-30 tests covering:
+Tests covering:
 - Schema validation (valid/invalid inputs)
 - Store CRUD operations and error handling
 - Dashboard metric selectors (empty state, computation)
