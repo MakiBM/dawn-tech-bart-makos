@@ -1,8 +1,8 @@
 import { useRouteError, Link } from 'react-router'
 
 export function RouteErrorFallback() {
-  // TODO: Production — forward to Sentry via Sentry.captureException()
-  const error = useRouteError() as Error
+  const error = useRouteError()
+  const message = error instanceof Error ? error.message : 'An unexpected error occurred'
 
   return (
     <div className="flex min-h-screen flex-col items-start justify-center bg-cream-bg px-12 text-cream-fg">
@@ -13,7 +13,7 @@ export function RouteErrorFallback() {
         Page Error
       </h2>
       <p className="mt-4 font-mono text-[11px] uppercase tracking-[0.05em] text-cream-muted">
-        {error?.message ?? 'An unexpected error occurred'}
+        {message}
       </p>
       <div className="mt-6 flex gap-6">
         <button
