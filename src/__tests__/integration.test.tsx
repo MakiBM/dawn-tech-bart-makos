@@ -98,6 +98,35 @@ describe('Integration: CRUD cycle with dashboard sync', () => {
     expect(useOrderStore.getState().orders[0].destinationCountry).toBe('Germany')
   })
 
+  it('deletes an order and updates store', async () => {
+    const user = userEvent.setup()
+
+    useOrderStore.setState({
+      orders: [
+        {
+          id: 'order-1',
+          destinationCountry: 'Germany',
+          shippingDate: '2025-06-15',
+          price: 1500,
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString(),
+        },
+      ],
+    })
+
+    renderWithRouter('/orders')
+    expect(screen.getByText('Germany')).toBeInTheDocument()
+
+    await user.click(screen.getByRole('button', { name: 'Delete' }))
+    expect(screen.getByText(/are you sure/i)).toBeInTheDocument()
+
+    await user.click(screen.getByRole('button', { name: 'Delete' }))
+
+    await waitFor(() => {
+      expect(useOrderStore.getState().orders).toHaveLength(0)
+    })
+  })
+
   it('navigates between pages', async () => {
     const user = userEvent.setup()
     renderWithRouter('/')

@@ -176,4 +176,71 @@ describe('orderStore', () => {
     await expect(useOrderStore.getState().editOrder('nonexistent', { price: 100 })).rejects.toThrow('Order not found')
     expect(useOrderStore.getState().error).toBe('Order not found')
   })
+
+  it('blocks concurrent edits on the same order via pendingIds', async () => {
+    let resolveFirst!: (value: Order) => void
+    mockUpdate.mockImplementationOnce(
+      () =>
+        new Promise<Order>((resolve) => {
+          resolveFirst = resolve
+        }),
+    )
+
+    const order: Order = {
+      id: 'test-id-1',
+      destinationCountry: 'Germany',
+      shippingDate: '2025-06-15',
+      price: 1500,
+      createdAt: '2025-01-01T00:00:00.000Z',
+      updatedAt: '2025-01-01T00:00:00.000Z',
+    }
+    useOrderStore.setState({ orders: [order] })
+
+    const first = useOrderStore.getState().editOrder('test-id-1', { price: 2000 })
+    expect(useOrderStore.getState().pendingIds).toContain('test-id-1')
+
+    // Second edit silently ignored while first is in-flight
+    await useOrderStore.getState().editOrder('test-id-1', { price: 9999 })
+    expect(useOrderStore.getState().orders[0].price).toBe(2000) // still first edit's value
+
+    resolveFirst({ ...order, price: 2000, updatedAt: '2025-01-02T00:00:00.000Z' })
+    await first
+
+    expect(useOrderStore.getState().pendingIds).toEqual([])
+    expect(useOrderStore.getState().orders[0].price).toBe(2000)
+  })
+
+  it('blocks concurrent deletes on the same order via pendingIds', async () => {
+    let resolveFirst!: () => void
+    mockDelete.mockImplementationOnce(
+      () =>
+        new Promise<void>((resolve) => {
+          resolveFirst = resolve
+        }),
+    )
+
+    useOrderStore.setState({
+      orders: [
+        {
+          id: 'test-id-1',
+          destinationCountry: 'Germany',
+          shippingDate: '2025-06-15',
+          price: 1500,
+          createdAt: '2025-01-01T00:00:00.000Z',
+          updatedAt: '2025-01-01T00:00:00.000Z',
+        },
+      ],
+    })
+
+    const first = useOrderStore.getState().removeOrder('test-id-1')
+
+    // Second delete silently ignored
+    await useOrderStore.getState().removeOrder('test-id-1')
+    expect(useOrderStore.getState().orders).toHaveLength(1)
+
+    resolveFirst()
+    await first
+
+    expect(useOrderStore.getState().orders).toHaveLength(0)
+  })
 })

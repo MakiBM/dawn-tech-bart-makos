@@ -47,6 +47,34 @@ describe('OrderForm', () => {
     })
   })
 
+  it('skips submit when edit form is unchanged', async () => {
+    const user = userEvent.setup()
+    const onSubmit = vi.fn()
+    const onOpenChange = vi.fn()
+    render(
+      <OrderForm
+        open={true}
+        onOpenChange={onOpenChange}
+        onSubmit={onSubmit}
+        order={{
+          id: '1',
+          destinationCountry: 'Germany',
+          shippingDate: '2025-06-15',
+          price: 1500,
+          createdAt: '',
+          updatedAt: '',
+        }}
+      />,
+    )
+
+    await user.click(screen.getByRole('button', { name: 'Save Changes' }))
+
+    await waitFor(() => {
+      expect(onOpenChange).toHaveBeenCalledWith(false)
+    })
+    expect(onSubmit).not.toHaveBeenCalled()
+  })
+
   it('submits valid form data', async () => {
     const user = userEvent.setup()
     const onSubmit = vi.fn()
