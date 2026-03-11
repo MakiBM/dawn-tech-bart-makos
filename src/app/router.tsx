@@ -1,7 +1,5 @@
 import { createBrowserRouter } from 'react-router'
 import { RootLayout } from './layouts/RootLayout'
-import { DashboardPage } from '@/features/dashboard/DashboardPage'
-import { OrdersPage } from '@/features/orders/OrdersPage'
 import { RouteErrorFallback } from '@/shared/components/RouteErrorFallback'
 
 export const router = createBrowserRouter([
@@ -12,12 +10,18 @@ export const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <DashboardPage />,
+        lazy: () =>
+          import('@/features/dashboard/DashboardPage').then((m) => ({
+            Component: m.DashboardPage,
+          })),
         errorElement: <RouteErrorFallback />,
       },
       {
         path: 'orders',
-        element: <OrdersPage />,
+        lazy: () =>
+          import('@/features/orders/OrdersPage').then((m) => ({
+            Component: m.OrdersPage,
+          })),
         errorElement: <RouteErrorFallback />,
       },
     ],
