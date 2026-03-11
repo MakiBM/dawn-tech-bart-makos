@@ -1,6 +1,7 @@
 import { useRouteError, Link } from 'react-router'
 
 export function RouteErrorFallback() {
+  // TODO: Production — forward to Sentry via Sentry.captureException()
   const error = useRouteError() as Error
 
   return (

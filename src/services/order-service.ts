@@ -1,5 +1,6 @@
 import { nanoid } from 'nanoid'
 import type { Order, CreateOrderInput, UpdateOrderInput } from '@/types/order'
+import { OrderServiceError } from '@/shared/lib/errors'
 
 type DevConfig = {
   failNextCreate: boolean
@@ -42,7 +43,11 @@ const failureMessages: Record<string, string> = {
 function checkFailure(flag: keyof DevConfig, operation: string): void {
   if (devConfig[flag]) {
     devConfig[flag] = false
-    throw new Error(failureMessages[operation] ?? 'Something went wrong. Please try again.')
+    // TODO: Production — forward to Sentry via Sentry.captureException()
+    throw new OrderServiceError(
+      failureMessages[operation] ?? 'Something went wrong. Please try again.',
+      operation,
+    )
   }
 }
 

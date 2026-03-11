@@ -2,6 +2,7 @@ import { describe, it, expect, beforeEach, vi } from 'vitest'
 import { useOrderStore } from '../order-store'
 import type { Order, CreateOrderInput, UpdateOrderInput } from '@/types/order'
 import * as orderService from '@/services/order-service'
+import { OrderServiceError } from '@/shared/lib/errors'
 
 vi.mock('@/services/order-service', () => ({
   createOrder: vi.fn(),
@@ -59,7 +60,7 @@ describe('orderStore', () => {
   })
 
   it('rolls back on failed create', async () => {
-    mockCreate.mockRejectedValueOnce(new Error('Create failed'))
+    mockCreate.mockRejectedValueOnce(new OrderServiceError('Create failed', 'create'))
 
     await expect(
       useOrderStore.getState().addOrder({
@@ -105,7 +106,7 @@ describe('orderStore', () => {
         updatedAt: '2025-01-01T00:00:00.000Z',
       }],
     })
-    mockUpdate.mockRejectedValueOnce(new Error('Update failed'))
+    mockUpdate.mockRejectedValueOnce(new OrderServiceError('Update failed', 'update'))
 
     await expect(
       useOrderStore.getState().editOrder('test-id-1', { price: 9999 }),
@@ -148,7 +149,7 @@ describe('orderStore', () => {
         updatedAt: '2025-01-01T00:00:00.000Z',
       }],
     })
-    mockDelete.mockRejectedValueOnce(new Error('Delete failed'))
+    mockDelete.mockRejectedValueOnce(new OrderServiceError('Delete failed', 'delete'))
 
     await expect(
       useOrderStore.getState().removeOrder('test-id-1'),

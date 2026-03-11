@@ -3,6 +3,7 @@ import { persist } from 'zustand/middleware'
 import { nanoid } from 'nanoid'
 import type { Order, CreateOrderInput, UpdateOrderInput } from '@/types/order'
 import * as orderService from '@/services/order-service'
+import { OrderServiceError } from '@/shared/lib/errors'
 
 type OrderState = {
   orders: Order[]
@@ -38,9 +39,10 @@ export const useOrderStore = create<OrderState>()(
             orders: s.orders.map((o) => (o.id === optimisticId ? real : o)),
           }))
         } catch (e) {
+          // TODO: Production — forward to Sentry via Sentry.captureException()
           set((s) => ({
             orders: s.orders.filter((o) => o.id !== optimisticId),
-            error: (e as Error).message,
+            error: e instanceof OrderServiceError ? e.message : 'Something went wrong. Please try again.',
           }))
           throw e
         }
@@ -66,9 +68,10 @@ export const useOrderStore = create<OrderState>()(
             orders: s.orders.map((o) => (o.id === id ? real : o)),
           }))
         } catch (e) {
+          // TODO: Production — forward to Sentry via Sentry.captureException()
           set((s) => ({
             orders: s.orders.map((o) => (o.id === id ? prev : o)),
-            error: (e as Error).message,
+            error: e instanceof OrderServiceError ? e.message : 'Something went wrong. Please try again.',
           }))
           throw e
         }
@@ -87,7 +90,8 @@ export const useOrderStore = create<OrderState>()(
         try {
           await orderService.deleteOrder(id)
         } catch (e) {
-          set({ orders: prev, error: (e as Error).message })
+          // TODO: Production — forward to Sentry via Sentry.captureException()
+          set({ orders: prev, error: e instanceof OrderServiceError ? e.message : 'Something went wrong. Please try again.' })
           throw e
         }
       },
