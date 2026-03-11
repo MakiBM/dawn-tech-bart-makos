@@ -4,20 +4,18 @@ A React-based order management dashboard with full CRUD operations, real-time me
 
 ## Tech Stack
 
-| Layer     | Choice                          |
-| --------- | ------------------------------- |
-| Framework | React 19 + TypeScript           |
-| Build     | Vite 7                          |
-| State     | Zustand v5 + persist middleware |
-| Routing   | React Router v7                 |
-| Styling   | Tailwind CSS v4                 |
-| Forms     | React Hook Form + Zod v4        |
-| Testing   | Vitest + React Testing Library  |
-| UI        | shadcn/ui (Base UI primitives)  |
+Framework: React 19 + TypeScript
+Build: Vite 7
+State: Zustand v5 + persist middleware
+Routing: React Router v7
+Styling: Tailwind CSS v4
+Forms: React Hook Form + Zod v4
+Testing: Vitest + React Testing Library
+UI: shadcn/ui (Base UI primitives)
 
 ## Quick Start
 
-```bash
+```
 pnpm install
 pnpm dev       # http://localhost:5173
 pnpm test      # run test suite
