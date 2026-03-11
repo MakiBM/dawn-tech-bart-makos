@@ -74,6 +74,9 @@ describe('Integration: CRUD cycle with dashboard sync', () => {
 
     // Select country
     await user.click(screen.getByRole('combobox'))
+    await waitFor(() => {
+      expect(screen.getByRole('option', { name: 'Germany' })).toBeInTheDocument()
+    })
     await user.click(screen.getByRole('option', { name: 'Germany' }))
 
     // Fill date

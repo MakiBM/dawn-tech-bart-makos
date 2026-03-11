@@ -52,7 +52,7 @@ describe('OrderForm', () => {
     const onSubmit = vi.fn()
     render(<OrderForm {...defaultProps} onSubmit={onSubmit} />)
 
-    // Select country using Radix Select
+    // Select country
     await user.click(screen.getByRole('combobox'))
     await user.click(screen.getByRole('option', { name: 'Germany' }))
 

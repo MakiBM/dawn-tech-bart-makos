@@ -13,7 +13,7 @@ A React-based order management dashboard with full CRUD operations, real-time me
 | Styling   | Tailwind CSS v4                 |
 | Forms     | React Hook Form + Zod v4        |
 | Testing   | Vitest + React Testing Library  |
-| UI        | shadcn/ui (Radix primitives)    |
+| UI        | shadcn/ui (Base UI primitives)  |
 
 ## Quick Start
 
@@ -58,6 +58,10 @@ src/
 **Layered error boundaries** — App-level (catastrophic), route-level (page isolation), component-level (table errors don't block "New Order" button). Each layer has appropriate recovery UI.
 
 **Dev error simulation** — Floating toolbar (DEV only) with toggles to force service failures and slow network. Reviewers can verify error UX without code changes.
+
+**Why React Router v7** — SPA requirement with no SSR. File-based routing optional, v7 has loaders/actions for future API layer, smaller bundle than a meta-framework. Recruitment test scope doesn't justify Next.js/TanStack Start complexity.
+
+**Why Zustand over Redux Toolkit** — Minimal boilerplate with no providers/reducers/actions ceremony. Built-in persist middleware, first-class TypeScript. Sufficient for a single-store app — RTK would add ~30KB+ for no benefit at this scale.
 
 ## Testing
 

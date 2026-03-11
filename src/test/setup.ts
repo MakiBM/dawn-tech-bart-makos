@@ -1,6 +1,6 @@
 import '@testing-library/jest-dom/vitest'
 
-// Polyfills for Radix UI in jsdom
+// Polyfills for Base UI in jsdom
 if (typeof window !== 'undefined') {
   Element.prototype.hasPointerCapture = Element.prototype.hasPointerCapture || (() => false)
   Element.prototype.setPointerCapture = Element.prototype.setPointerCapture || (() => {})
