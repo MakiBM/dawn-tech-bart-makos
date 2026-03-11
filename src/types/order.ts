@@ -1,3 +1,4 @@
+// In production, shared via API contract (OpenAPI / tRPC) with backend
 export type Order = {
   id: string
   destinationCountry: string
@@ -7,10 +8,6 @@ export type Order = {
   updatedAt: string
 }
 
-export type CreateOrderInput = {
-  destinationCountry: string
-  shippingDate: string
-  price: number // cents
-}
+export type CreateOrderInput = Omit<Order, 'id' | 'createdAt' | 'updatedAt'>
 
 export type UpdateOrderInput = Partial<CreateOrderInput>
