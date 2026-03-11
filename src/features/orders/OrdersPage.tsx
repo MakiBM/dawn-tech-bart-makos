@@ -12,6 +12,7 @@ import { EmptyState } from './components/EmptyState'
 export function OrdersPage() {
   const orders = useOrderStore((s) => s.orders)
   const error = useOrderStore((s) => s.error)
+  const pendingIds = useOrderStore((s) => s.pendingIds)
   const addOrder = useOrderStore((s) => s.addOrder)
   const editOrder = useOrderStore((s) => s.editOrder)
   const removeOrder = useOrderStore((s) => s.removeOrder)
@@ -36,11 +37,12 @@ export function OrdersPage() {
   }, [])
 
   function handleSubmit(values: OrderFormValues) {
+    const orderToEdit = editingOrder
     setFormOpen(false)
     setEditingOrder(undefined)
 
-    if (editingOrder) {
-      editOrder(editingOrder.id, values).catch(() => {})
+    if (orderToEdit) {
+      editOrder(orderToEdit.id, values).catch(() => {})
     } else {
       addOrder(values).catch(() => {})
     }
@@ -90,7 +92,7 @@ export function OrdersPage() {
             <EmptyState onCreateOrder={openCreate} />
           ) : (
             <div className="mt-6">
-              <OrderTable orders={orders} onEdit={openEdit} onDelete={openDelete} />
+              <OrderTable orders={orders} pendingIds={pendingIds} onEdit={openEdit} onDelete={openDelete} />
             </div>
           )}
         </ErrorBoundary>

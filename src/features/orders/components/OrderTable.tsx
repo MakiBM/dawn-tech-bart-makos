@@ -10,13 +10,14 @@ import { OrderTableRow } from './OrderTableRow'
 
 type OrderTableProps = {
   orders: Order[]
+  pendingIds: string[]
   onEdit: (order: Order) => void
   onDelete: (order: Order) => void
 }
 
 const thClass = 'font-mono text-[11px] uppercase tracking-[0.05em] font-normal text-cream-muted px-4'
 
-export function OrderTable({ orders, onEdit, onDelete }: OrderTableProps) {
+export function OrderTable({ orders, pendingIds, onEdit, onDelete }: OrderTableProps) {
   return (
     <div className="overflow-x-auto">
       <Table className="min-w-[560px]">
@@ -36,6 +37,7 @@ export function OrderTable({ orders, onEdit, onDelete }: OrderTableProps) {
               order={order}
               onEdit={onEdit}
               onDelete={onDelete}
+              isPending={pendingIds.includes(order.id)}
             />
           ))}
         </TableBody>

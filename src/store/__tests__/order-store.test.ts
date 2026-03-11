@@ -29,7 +29,7 @@ function fakeUpdated(order: Order, input: UpdateOrderInput): Order {
 
 describe('orderStore', () => {
   beforeEach(() => {
-    useOrderStore.setState({ orders: [], error: null })
+    useOrderStore.setState({ orders: [], error: null, pendingIds: [] })
     vi.clearAllMocks()
     mockCreate.mockImplementation(async (input) => fakeOrder(input))
     mockUpdate.mockImplementation(async (order, input) => fakeUpdated(order, input))
@@ -117,7 +117,7 @@ describe('orderStore', () => {
     expect(useOrderStore.getState().error).toBe('Update failed')
   })
 
-  it('removes an order optimistically', async () => {
+  it('removes an order after service confirms', async () => {
     useOrderStore.setState({
       orders: [{
         id: 'test-id-1',
@@ -131,11 +131,13 @@ describe('orderStore', () => {
 
     const promise = useOrderStore.getState().removeOrder('test-id-1')
 
-    // Optimistic: removed immediately
-    expect(useOrderStore.getState().orders).toHaveLength(0)
+    // Pending: order still present, id tracked
+    expect(useOrderStore.getState().orders).toHaveLength(1)
+    expect(useOrderStore.getState().pendingIds).toContain('test-id-1')
 
     await promise
     expect(useOrderStore.getState().orders).toHaveLength(0)
+    expect(useOrderStore.getState().pendingIds).toEqual([])
   })
 
   it('rolls back on failed delete', async () => {

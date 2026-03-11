@@ -8,6 +8,7 @@ import { OrderServiceError } from '@/shared/lib/errors'
 type OrderState = {
   orders: Order[]
   error: string | null
+  pendingIds: string[]
 
   addOrder: (input: CreateOrderInput) => Promise<void>
   editOrder: (id: string, input: UpdateOrderInput) => Promise<void>
@@ -20,6 +21,7 @@ export const useOrderStore = create<OrderState>()(
     (set, get) => ({
       orders: [],
       error: null,
+      pendingIds: [],
 
       addOrder: async (input) => {
         const optimisticId = nanoid()
@@ -39,7 +41,6 @@ export const useOrderStore = create<OrderState>()(
             orders: s.orders.map((o) => (o.id === optimisticId ? real : o)),
           }))
         } catch (e) {
-          // TODO: Production — forward to Sentry via Sentry.captureException()
           set((s) => ({
             orders: s.orders.filter((o) => o.id !== optimisticId),
             error: e instanceof OrderServiceError ? e.message : 'Something went wrong. Please try again.',
@@ -49,6 +50,8 @@ export const useOrderStore = create<OrderState>()(
       },
 
       editOrder: async (id, input) => {
+        if (get().pendingIds.includes(id)) return
+
         const prev = get().orders.find((o) => o.id === id)
         if (!prev) {
           set({ error: 'Order not found' })
@@ -59,6 +62,7 @@ export const useOrderStore = create<OrderState>()(
 
         set((s) => ({
           orders: s.orders.map((o) => (o.id === id ? optimistic : o)),
+          pendingIds: [...s.pendingIds, id],
           error: null,
         }))
 
@@ -68,31 +72,38 @@ export const useOrderStore = create<OrderState>()(
             orders: s.orders.map((o) => (o.id === id ? real : o)),
           }))
         } catch (e) {
-          // TODO: Production — forward to Sentry via Sentry.captureException()
           set((s) => ({
             orders: s.orders.map((o) => (o.id === id ? prev : o)),
             error: e instanceof OrderServiceError ? e.message : 'Something went wrong. Please try again.',
           }))
           throw e
+        } finally {
+          set((s) => ({ pendingIds: s.pendingIds.filter((x) => x !== id) }))
         }
       },
 
       removeOrder: async (id) => {
-        const prev = get().orders
-        const removed = prev.find((o) => o.id === id)
-        if (!removed) return
+        if (get().pendingIds.includes(id)) return
+
+        if (!get().orders.some((o) => o.id === id)) return
 
         set((s) => ({
-          orders: s.orders.filter((o) => o.id !== id),
+          pendingIds: [...s.pendingIds, id],
           error: null,
         }))
 
         try {
           await orderService.deleteOrder(id)
+          set((s) => ({
+            orders: s.orders.filter((o) => o.id !== id),
+          }))
         } catch (e) {
-          // TODO: Production — forward to Sentry via Sentry.captureException()
-          set({ orders: prev, error: e instanceof OrderServiceError ? e.message : 'Something went wrong. Please try again.' })
+          set({
+            error: e instanceof OrderServiceError ? e.message : 'Something went wrong. Please try again.',
+          })
           throw e
+        } finally {
+          set((s) => ({ pendingIds: s.pendingIds.filter((x) => x !== id) }))
         }
       },
 

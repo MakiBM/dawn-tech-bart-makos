@@ -11,7 +11,7 @@ const orders: Order[] = [
 
 describe('OrderTable', () => {
   it('renders order rows', () => {
-    render(<OrderTable orders={orders} onEdit={vi.fn()} onDelete={vi.fn()} />)
+    render(<OrderTable orders={orders} pendingIds={[]} onEdit={vi.fn()} onDelete={vi.fn()} />)
     expect(screen.getByText('Germany')).toBeInTheDocument()
     expect(screen.getByText('France')).toBeInTheDocument()
     expect(screen.getByText('$15.00')).toBeInTheDocument()
@@ -21,7 +21,7 @@ describe('OrderTable', () => {
   it('calls onEdit when edit button clicked', async () => {
     const user = userEvent.setup()
     const onEdit = vi.fn()
-    render(<OrderTable orders={orders} onEdit={onEdit} onDelete={vi.fn()} />)
+    render(<OrderTable orders={orders} pendingIds={[]} onEdit={onEdit} onDelete={vi.fn()} />)
 
     const editButtons = screen.getAllByRole('button', { name: 'Edit' })
     await user.click(editButtons[0])
@@ -31,7 +31,7 @@ describe('OrderTable', () => {
   it('calls onDelete when delete button clicked', async () => {
     const user = userEvent.setup()
     const onDelete = vi.fn()
-    render(<OrderTable orders={orders} onEdit={vi.fn()} onDelete={onDelete} />)
+    render(<OrderTable orders={orders} pendingIds={[]} onEdit={vi.fn()} onDelete={onDelete} />)
 
     const deleteButtons = screen.getAllByRole('button', { name: 'Delete' })
     await user.click(deleteButtons[1])

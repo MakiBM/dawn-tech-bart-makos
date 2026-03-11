@@ -51,7 +51,7 @@ function renderWithRouter(initialPath: string) {
 
 describe('Integration: CRUD cycle with dashboard sync', () => {
   beforeEach(() => {
-    useOrderStore.setState({ orders: [], error: null })
+    useOrderStore.setState({ orders: [], error: null, pendingIds: [] })
   })
 
   it('shows empty dashboard metrics initially', () => {
