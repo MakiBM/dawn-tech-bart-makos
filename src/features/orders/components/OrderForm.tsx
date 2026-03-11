@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { orderSchema, type OrderFormValues } from '@/schemas/order-schema'
@@ -30,6 +31,20 @@ type OrderFormProps = {
   order?: Order
 }
 
+const emptyDefaults: OrderFormValues = {
+  destinationCountry: '',
+  shippingDate: '',
+  price: 0,
+}
+
+function orderToFormValues(order: Order): OrderFormValues {
+  return {
+    destinationCountry: order.destinationCountry,
+    shippingDate: order.shippingDate,
+    price: order.price,
+  }
+}
+
 export function OrderForm({ open, onOpenChange, onSubmit, order }: OrderFormProps) {
   const isEdit = !!order
 
@@ -42,18 +57,15 @@ export function OrderForm({ open, onOpenChange, onSubmit, order }: OrderFormProp
     formState: { errors, isSubmitting },
   } = useForm<OrderFormValues>({
     resolver: zodResolver(orderSchema),
-    defaultValues: order
-      ? {
-          destinationCountry: order.destinationCountry,
-          shippingDate: order.shippingDate,
-          price: order.price,
-        }
-      : {
-          destinationCountry: '',
-          shippingDate: '',
-          price: 0,
-        },
+    defaultValues: emptyDefaults,
   })
+
+  // Sync form values when order prop changes (create vs edit)
+  useEffect(() => {
+    if (open) {
+      reset(order ? orderToFormValues(order) : emptyDefaults)
+    }
+  }, [open, order, reset])
 
   const selectedCountry = watch('destinationCountry')
 
