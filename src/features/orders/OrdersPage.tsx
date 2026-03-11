@@ -98,12 +98,7 @@ export function OrdersPage() {
         </ErrorBoundary>
       </div>
 
-      <OrderForm
-        open={formOpen}
-        onOpenChange={setFormOpen}
-        onSubmit={handleSubmit}
-        order={editingOrder}
-      />
+      <OrderForm open={formOpen} onOpenChange={setFormOpen} onSubmit={handleSubmit} order={editingOrder} />
 
       <DeleteConfirmDialog
         open={!!deletingOrder}

@@ -12,9 +12,7 @@ export function RouteErrorFallback() {
       >
         Page Error
       </h2>
-      <p className="mt-4 font-mono text-[11px] uppercase tracking-[0.05em] text-cream-muted">
-        {message}
-      </p>
+      <p className="mt-4 font-mono text-[11px] uppercase tracking-[0.05em] text-cream-muted">{message}</p>
       <div className="mt-6 flex gap-6">
         <button
           onClick={() => window.location.reload()}

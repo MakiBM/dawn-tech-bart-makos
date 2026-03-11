@@ -1,19 +1,19 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
 @custom-variant dark (&:is(.dark *));
 
 :root {
   --radius: 0px;
 
-  --dark-bg: #2C3125;
-  --dark-fg: #D9E2B6;
-  --dark-border: rgba(217,226,182,0.3);
-  --dark-muted: rgba(217,226,182,0.6);
+  --dark-bg: #2c3125;
+  --dark-fg: #d9e2b6;
+  --dark-border: rgba(217, 226, 182, 0.3);
+  --dark-muted: rgba(217, 226, 182, 0.6);
 
-  --cream-bg: #F4F3ED;
-  --cream-fg: #1E1E1E;
-  --cream-border: rgba(30,30,30,0.2);
-  --cream-muted: rgba(30,30,30,0.5);
+  --cream-bg: #f4f3ed;
+  --cream-fg: #1e1e1e;
+  --cream-border: rgba(30, 30, 30, 0.2);
+  --cream-muted: rgba(30, 30, 30, 0.5);
 
   --background: var(--cream-bg);
   --foreground: var(--cream-fg);
@@ -27,17 +27,17 @@
   --primary: var(--cream-fg);
   --primary-foreground: var(--cream-bg);
 
-  --secondary: rgba(30,30,30,0.08);
+  --secondary: rgba(30, 30, 30, 0.08);
   --secondary-foreground: var(--cream-fg);
 
-  --muted: rgba(30,30,30,0.08);
+  --muted: rgba(30, 30, 30, 0.08);
   --muted-foreground: var(--cream-muted);
 
-  --accent: rgba(30,30,30,0.08);
+  --accent: rgba(30, 30, 30, 0.08);
   --accent-foreground: var(--cream-fg);
 
-  --destructive: #B91C1C;
-  --destructive-foreground: #B91C1C;
+  --destructive: #b91c1c;
+  --destructive-foreground: #b91c1c;
 
   --border: var(--cream-border);
   --input: var(--cream-border);
@@ -47,7 +47,7 @@
   --sidebar-foreground: var(--cream-fg);
   --sidebar-primary: var(--cream-fg);
   --sidebar-primary-foreground: var(--cream-bg);
-  --sidebar-accent: rgba(30,30,30,0.08);
+  --sidebar-accent: rgba(30, 30, 30, 0.08);
   --sidebar-accent-foreground: var(--cream-fg);
   --sidebar-border: var(--cream-border);
   --sidebar-ring: var(--cream-muted);

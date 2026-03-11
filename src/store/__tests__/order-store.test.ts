@@ -76,14 +76,16 @@ describe('orderStore', () => {
 
   it('edits an order optimistically', async () => {
     useOrderStore.setState({
-      orders: [{
-        id: 'test-id-1',
-        destinationCountry: 'Germany',
-        shippingDate: '2025-06-15',
-        price: 1500,
-        createdAt: '2025-01-01T00:00:00.000Z',
-        updatedAt: '2025-01-01T00:00:00.000Z',
-      }],
+      orders: [
+        {
+          id: 'test-id-1',
+          destinationCountry: 'Germany',
+          shippingDate: '2025-06-15',
+          price: 1500,
+          createdAt: '2025-01-01T00:00:00.000Z',
+          updatedAt: '2025-01-01T00:00:00.000Z',
+        },
+      ],
     })
 
     const promise = useOrderStore.getState().editOrder('test-id-1', { price: 2000 })
@@ -97,20 +99,20 @@ describe('orderStore', () => {
 
   it('rolls back on failed edit', async () => {
     useOrderStore.setState({
-      orders: [{
-        id: 'test-id-1',
-        destinationCountry: 'Germany',
-        shippingDate: '2025-06-15',
-        price: 1500,
-        createdAt: '2025-01-01T00:00:00.000Z',
-        updatedAt: '2025-01-01T00:00:00.000Z',
-      }],
+      orders: [
+        {
+          id: 'test-id-1',
+          destinationCountry: 'Germany',
+          shippingDate: '2025-06-15',
+          price: 1500,
+          createdAt: '2025-01-01T00:00:00.000Z',
+          updatedAt: '2025-01-01T00:00:00.000Z',
+        },
+      ],
     })
     mockUpdate.mockRejectedValueOnce(new OrderServiceError('Update failed', 'update'))
 
-    await expect(
-      useOrderStore.getState().editOrder('test-id-1', { price: 9999 }),
-    ).rejects.toThrow('Update failed')
+    await expect(useOrderStore.getState().editOrder('test-id-1', { price: 9999 })).rejects.toThrow('Update failed')
 
     // Rolled back to original price
     expect(useOrderStore.getState().orders[0].price).toBe(1500)
@@ -119,14 +121,16 @@ describe('orderStore', () => {
 
   it('removes an order after service confirms', async () => {
     useOrderStore.setState({
-      orders: [{
-        id: 'test-id-1',
-        destinationCountry: 'Germany',
-        shippingDate: '2025-06-15',
-        price: 1500,
-        createdAt: '2025-01-01T00:00:00.000Z',
-        updatedAt: '2025-01-01T00:00:00.000Z',
-      }],
+      orders: [
+        {
+          id: 'test-id-1',
+          destinationCountry: 'Germany',
+          shippingDate: '2025-06-15',
+          price: 1500,
+          createdAt: '2025-01-01T00:00:00.000Z',
+          updatedAt: '2025-01-01T00:00:00.000Z',
+        },
+      ],
     })
 
     const promise = useOrderStore.getState().removeOrder('test-id-1')
@@ -142,20 +146,20 @@ describe('orderStore', () => {
 
   it('rolls back on failed delete', async () => {
     useOrderStore.setState({
-      orders: [{
-        id: 'test-id-1',
-        destinationCountry: 'Germany',
-        shippingDate: '2025-06-15',
-        price: 1500,
-        createdAt: '2025-01-01T00:00:00.000Z',
-        updatedAt: '2025-01-01T00:00:00.000Z',
-      }],
+      orders: [
+        {
+          id: 'test-id-1',
+          destinationCountry: 'Germany',
+          shippingDate: '2025-06-15',
+          price: 1500,
+          createdAt: '2025-01-01T00:00:00.000Z',
+          updatedAt: '2025-01-01T00:00:00.000Z',
+        },
+      ],
     })
     mockDelete.mockRejectedValueOnce(new OrderServiceError('Delete failed', 'delete'))
 
-    await expect(
-      useOrderStore.getState().removeOrder('test-id-1'),
-    ).rejects.toThrow('Delete failed')
+    await expect(useOrderStore.getState().removeOrder('test-id-1')).rejects.toThrow('Delete failed')
 
     // Rolled back
     expect(useOrderStore.getState().orders).toHaveLength(1)
@@ -169,9 +173,7 @@ describe('orderStore', () => {
   })
 
   it('sets error on edit for missing order', async () => {
-    await expect(
-      useOrderStore.getState().editOrder('nonexistent', { price: 100 }),
-    ).rejects.toThrow('Order not found')
+    await expect(useOrderStore.getState().editOrder('nonexistent', { price: 100 })).rejects.toThrow('Order not found')
     expect(useOrderStore.getState().error).toBe('Order not found')
   })
 })

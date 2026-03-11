@@ -26,18 +26,16 @@ export function DevToolbar() {
 
       {open && (
         <div className="space-y-1 border-t border-cream-border px-3 py-2">
-          {([
-            ['failNextCreate', 'Fail next create'],
-            ['failNextUpdate', 'Fail next update'],
-            ['failNextDelete', 'Fail next delete'],
-            ['simulateSlowNetwork', 'Slow network (2s)'],
-          ] as const).map(([key, label]) => (
+          {(
+            [
+              ['failNextCreate', 'Fail next create'],
+              ['failNextUpdate', 'Fail next update'],
+              ['failNextDelete', 'Fail next delete'],
+              ['simulateSlowNetwork', 'Slow network (2s)'],
+            ] as const
+          ).map(([key, label]) => (
             <label key={key} className="flex items-center gap-2 text-xs text-cream-fg">
-              <input
-                type="checkbox"
-                checked={config[key]}
-                onChange={() => toggle(key)}
-              />
+              <input type="checkbox" checked={config[key]} onChange={() => toggle(key)} />
               {label}
             </label>
           ))}

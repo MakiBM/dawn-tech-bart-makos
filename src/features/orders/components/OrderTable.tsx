@@ -1,11 +1,5 @@
 import type { Order } from '@/types/order'
-import {
-  Table,
-  TableBody,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/shared/components/ui/table'
+import { Table, TableBody, TableHead, TableHeader, TableRow } from '@/shared/components/ui/table'
 import { OrderTableRow } from './OrderTableRow'
 
 type OrderTableProps = {

@@ -20,12 +20,7 @@ export function AppHeader({ variant }: AppHeaderProps) {
         isDark ? 'border-dark-border' : 'border-cream-border',
       )}
     >
-      <span
-        className={cn(
-          'text-[14px] font-extrabold tracking-wide',
-          isDark ? 'text-dark-fg' : 'text-cream-fg',
-        )}
-      >
+      <span className={cn('text-[14px] font-extrabold tracking-wide', isDark ? 'text-dark-fg' : 'text-cream-fg')}>
         ORD.SYS
       </span>
 

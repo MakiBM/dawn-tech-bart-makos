@@ -20,9 +20,30 @@ describe('useDashboardMetrics', () => {
   it('computes metrics from orders', () => {
     useOrderStore.setState({
       orders: [
-        { id: '1', destinationCountry: 'Germany', shippingDate: '2025-06-15', price: 1500, createdAt: '', updatedAt: '' },
-        { id: '2', destinationCountry: 'France', shippingDate: '2025-06-16', price: 2500, createdAt: '', updatedAt: '' },
-        { id: '3', destinationCountry: 'Germany', shippingDate: '2025-06-17', price: 1000, createdAt: '', updatedAt: '' },
+        {
+          id: '1',
+          destinationCountry: 'Germany',
+          shippingDate: '2025-06-15',
+          price: 1500,
+          createdAt: '',
+          updatedAt: '',
+        },
+        {
+          id: '2',
+          destinationCountry: 'France',
+          shippingDate: '2025-06-16',
+          price: 2500,
+          createdAt: '',
+          updatedAt: '',
+        },
+        {
+          id: '3',
+          destinationCountry: 'Germany',
+          shippingDate: '2025-06-17',
+          price: 1000,
+          createdAt: '',
+          updatedAt: '',
+        },
       ],
     })
     const { result } = renderHook(() => useDashboardMetrics())

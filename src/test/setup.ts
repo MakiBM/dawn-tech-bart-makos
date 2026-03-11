@@ -7,9 +7,11 @@ if (typeof window !== 'undefined') {
   Element.prototype.releasePointerCapture = Element.prototype.releasePointerCapture || (() => {})
   Element.prototype.scrollIntoView = Element.prototype.scrollIntoView || (() => {})
 
-  window.ResizeObserver = window.ResizeObserver || class {
-    observe() {}
-    unobserve() {}
-    disconnect() {}
-  }
+  window.ResizeObserver =
+    window.ResizeObserver ||
+    class {
+      observe() {}
+      unobserve() {}
+      disconnect() {}
+    }
 }

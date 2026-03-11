@@ -11,7 +11,9 @@ export function DashboardPage() {
           className="mb-12 font-bold leading-[0.9] tracking-tight text-dark-fg"
           style={{ fontSize: 'clamp(3rem, 6vw, 5rem)', letterSpacing: '-0.03em' }}
         >
-          Order<br />Management
+          Order
+          <br />
+          Management
         </div>
         <DashboardMetrics />
       </div>

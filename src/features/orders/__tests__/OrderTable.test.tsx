@@ -5,8 +5,22 @@ import { OrderTable } from '../components/OrderTable'
 import type { Order } from '@/types/order'
 
 const orders: Order[] = [
-  { id: 'abc12345', destinationCountry: 'Germany', shippingDate: '2025-06-15', price: 1500, createdAt: '', updatedAt: '' },
-  { id: 'def67890', destinationCountry: 'France', shippingDate: '2025-07-01', price: 2500, createdAt: '', updatedAt: '' },
+  {
+    id: 'abc12345',
+    destinationCountry: 'Germany',
+    shippingDate: '2025-06-15',
+    price: 1500,
+    createdAt: '',
+    updatedAt: '',
+  },
+  {
+    id: 'def67890',
+    destinationCountry: 'France',
+    shippingDate: '2025-07-01',
+    price: 2500,
+    createdAt: '',
+    updatedAt: '',
+  },
 ]
 
 describe('OrderTable', () => {

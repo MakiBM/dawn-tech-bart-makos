@@ -8,9 +8,7 @@ type MetricCardProps = {
 export function MetricCard({ title, value, bottomLeft, bottomRight }: MetricCardProps) {
   return (
     <div className="border-t border-dark-border pt-6">
-      <h3 className="font-mono text-[11px] uppercase tracking-[0.05em] text-dark-muted">
-        {title}
-      </h3>
+      <h3 className="font-mono text-[11px] uppercase tracking-[0.05em] text-dark-muted">{title}</h3>
 
       <div
         className="mt-4 font-bold leading-none tracking-tight text-dark-fg"

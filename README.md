@@ -5,7 +5,7 @@ A React-based order management dashboard with full CRUD operations, real-time me
 ## Tech Stack
 
 | Layer     | Choice                          |
-|-----------|---------------------------------|
+| --------- | ------------------------------- |
 | Framework | React 19 + TypeScript           |
 | Build     | Vite 7                          |
 | State     | Zustand v5 + persist middleware |
@@ -62,6 +62,7 @@ src/
 ## Testing
 
 Tests covering:
+
 - Schema validation (valid/invalid inputs)
 - Store CRUD operations and error handling
 - Dashboard metric selectors (empty state, computation)

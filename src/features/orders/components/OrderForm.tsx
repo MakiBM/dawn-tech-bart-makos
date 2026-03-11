@@ -15,13 +15,7 @@ import {
 import { Button } from '@/shared/components/ui/button'
 import { Input } from '@/shared/components/ui/input'
 import { Label } from '@/shared/components/ui/label'
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/shared/components/ui/select'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/shared/components/ui/select'
 
 type OrderFormProps = {
   open: boolean
@@ -91,7 +85,9 @@ export function OrderForm({ open, onOpenChange, onSubmit, order }: OrderFormProp
 
         <form onSubmit={handleSubmit(handleFormSubmit)} className="space-y-4">
           <div className="space-y-2">
-            <Label htmlFor="destinationCountry" className="font-mono text-[11px] uppercase tracking-[0.05em]">Destination Country</Label>
+            <Label htmlFor="destinationCountry" className="font-mono text-[11px] uppercase tracking-[0.05em]">
+              Destination Country
+            </Label>
             <Select
               value={selectedCountry}
               onValueChange={(v) => setValue('destinationCountry', v, { shouldValidate: true })}
@@ -113,34 +109,26 @@ export function OrderForm({ open, onOpenChange, onSubmit, order }: OrderFormProp
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="shippingDate" className="font-mono text-[11px] uppercase tracking-[0.05em]">Shipping Date</Label>
+            <Label htmlFor="shippingDate" className="font-mono text-[11px] uppercase tracking-[0.05em]">
+              Shipping Date
+            </Label>
             <Input id="shippingDate" type="date" {...register('shippingDate')} />
-            {errors.shippingDate && (
-              <p className="text-sm text-destructive">{errors.shippingDate.message}</p>
-            )}
+            {errors.shippingDate && <p className="text-sm text-destructive">{errors.shippingDate.message}</p>}
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="price" className="font-mono text-[11px] uppercase tracking-[0.05em]">Price (USD)</Label>
-            <Input
-              id="price"
-              type="number"
-              min={0.01}
-              step="0.01"
-              {...register('price', { valueAsNumber: true })}
-            />
-            {errors.price && (
-              <p className="text-sm text-destructive">{errors.price.message}</p>
-            )}
+            <Label htmlFor="price" className="font-mono text-[11px] uppercase tracking-[0.05em]">
+              Price (USD)
+            </Label>
+            <Input id="price" type="number" min={0.01} step="0.01" {...register('price', { valueAsNumber: true })} />
+            {errors.price && <p className="text-sm text-destructive">{errors.price.message}</p>}
           </div>
 
           <DialogFooter>
             <Button type="button" variant="outline" onClick={() => handleOpenChange(false)}>
               Cancel
             </Button>
-            <Button type="submit">
-              {isEdit ? 'Save Changes' : 'Create Order'}
-            </Button>
+            <Button type="submit">{isEdit ? 'Save Changes' : 'Create Order'}</Button>
           </DialogFooter>
         </form>
       </DialogContent>

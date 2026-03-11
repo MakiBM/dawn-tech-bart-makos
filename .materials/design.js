@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback } from 'react'
 
 const customStyles = {
   root: {
@@ -145,75 +145,87 @@ const customStyles = {
     textTransform: 'uppercase',
     fontFamily: "'Courier New', Courier, monospace",
   },
-};
+}
 
 const ShapeCluster = () => (
   <div style={customStyles.shapeCluster}>
-    <div style={{
-      backgroundColor: '#D9E2B6',
-      borderRadius: '999px',
-      width: '100%',
-      height: '100%',
-      gridColumn: 2,
-      gridRow: 1,
-      transform: 'rotate(45deg)',
-    }} />
-    <div style={{
-      backgroundColor: '#D9E2B6',
-      borderRadius: '999px',
-      width: '100%',
-      height: '100%',
-      gridColumn: 1,
-      gridRow: 2,
-      transform: 'rotate(-45deg)',
-    }} />
-    <div style={{
-      backgroundColor: '#D9E2B6',
-      borderRadius: '999px',
-      width: '100%',
-      height: '100%',
-      gridColumn: 2,
-      gridRow: 2,
-    }} />
-    <div style={{
-      backgroundColor: '#D9E2B6',
-      borderRadius: '999px',
-      width: '100%',
-      height: '100%',
-      gridColumn: 3,
-      gridRow: 2,
-      transform: 'rotate(45deg)',
-    }} />
+    <div
+      style={{
+        backgroundColor: '#D9E2B6',
+        borderRadius: '999px',
+        width: '100%',
+        height: '100%',
+        gridColumn: 2,
+        gridRow: 1,
+        transform: 'rotate(45deg)',
+      }}
+    />
+    <div
+      style={{
+        backgroundColor: '#D9E2B6',
+        borderRadius: '999px',
+        width: '100%',
+        height: '100%',
+        gridColumn: 1,
+        gridRow: 2,
+        transform: 'rotate(-45deg)',
+      }}
+    />
+    <div
+      style={{
+        backgroundColor: '#D9E2B6',
+        borderRadius: '999px',
+        width: '100%',
+        height: '100%',
+        gridColumn: 2,
+        gridRow: 2,
+      }}
+    />
+    <div
+      style={{
+        backgroundColor: '#D9E2B6',
+        borderRadius: '999px',
+        width: '100%',
+        height: '100%',
+        gridColumn: 3,
+        gridRow: 2,
+        transform: 'rotate(45deg)',
+      }}
+    />
   </div>
-);
+)
 
 const MetricCard = ({ title, value, updating, bottomLeft, bottomRight, showShape }) => (
   <div style={customStyles.metricCard}>
     <div style={customStyles.tTitle} dangerouslySetInnerHTML={{ __html: title }} />
     <div style={customStyles.metricValueWrapper}>
-      <div style={{
-        ...customStyles.tDisplay,
-        fontVariantNumeric: 'tabular-nums',
-        transition: 'opacity 0.3s ease',
-        opacity: updating ? 0.5 : 1,
-      }}>
+      <div
+        style={{
+          ...customStyles.tDisplay,
+          fontVariantNumeric: 'tabular-nums',
+          transition: 'opacity 0.3s ease',
+          opacity: updating ? 0.5 : 1,
+        }}
+      >
         {value}
       </div>
       {showShape && <ShapeCluster />}
     </div>
-    <div style={{
-      ...customStyles.metricCardBottom,
-      ...customStyles.tMono,
-      color: 'rgba(217, 226, 182, 0.6)',
-    }}>
+    <div
+      style={{
+        ...customStyles.metricCardBottom,
+        ...customStyles.tMono,
+        color: 'rgba(217, 226, 182, 0.6)',
+      }}
+    >
       <span>{bottomLeft}</span>
       <span>{bottomRight}</span>
     </div>
   </div>
-);
+)
 
 const ActionButton = ({ onClick, children }) => {
-  const [hovered, setHovered] = useState(false);
+  const [hovered, setHovered] = useState(false)
   return (
     <button
       onClick={onClick}
@@ -235,66 +247,75 @@ const ActionButton = ({ onClick, children }) => {
     >
       {children}
     </button>
-  );
-};
+  )
+}
 
 const initialOrders = [
-  { id: 'ORD-8472', date: '2023-10-24', country: 'Japan', status: 'Fulfilled', amount: 1250.00 },
-  { id: 'ORD-3921', date: '2023-10-24', country: 'Germany', status: 'Processing', amount: 840.50 },
+  { id: 'ORD-8472', date: '2023-10-24', country: 'Japan', status: 'Fulfilled', amount: 1250.0 },
+  { id: 'ORD-3921', date: '2023-10-24', country: 'Germany', status: 'Processing', amount: 840.5 },
   { id: 'ORD-9102', date: '2023-10-23', country: 'United States', status: 'Fulfilled', amount: 3200.75 },
-];
+]
 
-const currencyFmt = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' });
+const currencyFmt = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' })
 
 const App = () => {
-  const [orders, setOrders] = useState(initialOrders);
-  const [updating, setUpdating] = useState(false);
+  const [orders, setOrders] = useState(initialOrders)
+  const [updating, setUpdating] = useState(false)
   const [displayedMetrics, setDisplayedMetrics] = useState({
     totalRevenue: 0,
     totalOrders: 0,
     uniqueCountries: 0,
-  });
-  const [navLinkHovered, setNavLinkHovered] = useState(false);
+  })
+  const [navLinkHovered, setNavLinkHovered] = useState(false)
 
   const calculateMetrics = useCallback((orderList) => {
-    const totalOrders = orderList.length;
-    const totalRevenue = orderList.reduce((sum, order) => sum + order.amount, 0);
-    const uniqueCountries = new Set(orderList.map(o => o.country)).size;
-    return { totalOrders, totalRevenue, uniqueCountries };
-  }, []);
+    const totalOrders = orderList.length
+    const totalRevenue = orderList.reduce((sum, order) => sum + order.amount, 0)
+    const uniqueCountries = new Set(orderList.map((o) => o.country)).size
+    return { totalOrders, totalRevenue, uniqueCountries }
+  }, [])
 
   useEffect(() => {
-    setUpdating(true);
+    setUpdating(true)
     const timer = setTimeout(() => {
-      const metrics = calculateMetrics(orders);
-      setDisplayedMetrics(metrics);
-      setUpdating(false);
-    }, 150);
-    return () => clearTimeout(timer);
-  }, [orders, calculateMetrics]);
+      const metrics = calculateMetrics(orders)
+      setDisplayedMetrics(metrics)
+      setUpdating(false)
+    }, 150)
+    return () => clearTimeout(timer)
+  }, [orders, calculateMetrics])
 
   const addRandomOrder = () => {
-    const countries = ['United Kingdom', 'Canada', 'Australia', 'France', 'Brazil', 'Japan', 'Germany', 'United States'];
-    const statuses = ['Processing', 'Fulfilled', 'Pending'];
+    const countries = ['United Kingdom', 'Canada', 'Australia', 'France', 'Brazil', 'Japan', 'Germany', 'United States']
+    const statuses = ['Processing', 'Fulfilled', 'Pending']
     const newOrder = {
       id: `ORD-${Math.floor(1000 + Math.random() * 9000)}`,
       date: new Date().toISOString().split('T')[0],
       country: countries[Math.floor(Math.random() * countries.length)],
       status: statuses[Math.floor(Math.random() * statuses.length)],
-      amount: Math.floor(Math.random() * 5000) + (Math.random() * 100),
-    };
-    setOrders(prev => [...prev, newOrder]);
-  };
+      amount: Math.floor(Math.random() * 5000) + Math.random() * 100,
+    }
+    setOrders((prev) => [...prev, newOrder])
+  }
 
   const clearOrders = () => {
-    setOrders([]);
-  };
+    setOrders([])
+  }
 
-  const visibleOrders = [...orders].reverse().slice(0, 10);
-  const hasOrders = orders.length > 0;
+  const visibleOrders = [...orders].reverse().slice(0, 10)
+  const hasOrders = orders.length > 0
 
   return (
-    <div style={{ fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif", WebkitFontSmoothing: 'antialiased', display: 'flex', flexDirection: 'column', minHeight: '100vh', backgroundColor: '#F4F3ED' }}>
+    <div
+      style={{
+        fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif",
+        WebkitFontSmoothing: 'antialiased',
+        display: 'flex',
+        flexDirection: 'column',
+        minHeight: '100vh',
+        backgroundColor: '#F4F3ED',
+      }}
+    >
       {/* Dark Metrics Section */}
       <section style={customStyles.sectionMetrics}>
         <header style={customStyles.header}>
@@ -303,7 +324,9 @@ const App = () => {
         </header>
 
         <h1 style={{ ...customStyles.tDisplay, color: '#D9E2B6' }}>
-          Order<br />Management
+          Order
+          <br />
+          Management
         </h1>
 
         <div style={customStyles.metricsGrid}>
@@ -347,10 +370,9 @@ const App = () => {
             }}
             onMouseEnter={() => setNavLinkHovered(true)}
             onMouseLeave={() => setNavLinkHovered(false)}
-            onClick={e => e.preventDefault()}
+            onClick={(e) => e.preventDefault()}
           >
-            Order Overview{' '}
-            <span style={{ fontFamily: "'Courier New', Courier, monospace", fontSize: '1rem' }}>→</span>
+            Order Overview <span style={{ fontFamily: "'Courier New', Courier, monospace", fontSize: '1rem' }}>→</span>
           </a>
           <div style={customStyles.controls}>
             <ActionButton onClick={addRandomOrder}>+ Simulate Order</ActionButton>
@@ -386,12 +408,14 @@ const App = () => {
         ) : (
           <div style={customStyles.emptyState}>
             <div style={{ ...customStyles.tTitle, color: 'rgba(30, 30, 30, 0.5)' }}>System idling.</div>
-            <div style={{ ...customStyles.tMono, marginTop: '12px', color: 'rgba(30, 30, 30, 0.5)' }}>Dataset contains 0 records.</div>
+            <div style={{ ...customStyles.tMono, marginTop: '12px', color: 'rgba(30, 30, 30, 0.5)' }}>
+              Dataset contains 0 records.
+            </div>
           </div>
         )}
       </section>
     </div>
-  );
-};
+  )
+}
 
-export default App;
+export default App

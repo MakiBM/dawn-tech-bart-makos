@@ -44,10 +44,7 @@ function checkFailure(flag: keyof DevConfig, operation: string): void {
   if (devConfig[flag]) {
     devConfig[flag] = false
     // TODO: Production — forward to Sentry via Sentry.captureException()
-    throw new OrderServiceError(
-      failureMessages[operation] ?? 'Something went wrong. Please try again.',
-      operation,
-    )
+    throw new OrderServiceError(failureMessages[operation] ?? 'Something went wrong. Please try again.', operation)
   }
 }
 
