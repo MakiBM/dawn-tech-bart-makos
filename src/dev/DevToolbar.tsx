@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Bug, ChevronDown, ChevronUp } from 'lucide-react'
-import { getDevConfig, setDevConfig } from '@/services/order-service'
+import { getDevConfig, setDevConfig } from '@/dev/dev-config'
 import { Button } from '@/shared/components/ui/button'
 
 export function DevToolbar() {

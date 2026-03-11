@@ -22,15 +22,20 @@ vi.mock('@/services/order-service', () => {
       updatedAt: new Date().toISOString(),
     })),
     deleteOrder: vi.fn(async () => {}),
-    getDevConfig: vi.fn(() => ({
-      failNextCreate: false,
-      failNextUpdate: false,
-      failNextDelete: false,
-      simulateSlowNetwork: false,
-    })),
-    setDevConfig: vi.fn(),
   }
 })
+
+vi.mock('@/dev/dev-config', () => ({
+  getDevConfig: vi.fn(() => ({
+    failNextCreate: false,
+    failNextUpdate: false,
+    failNextDelete: false,
+    simulateSlowNetwork: false,
+  })),
+  setDevConfig: vi.fn(),
+  simulateNetworkDelay: vi.fn(),
+  simulateNetworkFailure: vi.fn(),
+}))
 
 function renderWithRouter(initialPath: string) {
   const router = createMemoryRouter(
