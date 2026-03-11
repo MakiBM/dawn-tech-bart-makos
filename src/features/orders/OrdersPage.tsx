@@ -65,7 +65,7 @@ export function OrdersPage() {
             className="font-bold tracking-tight"
             style={{ fontSize: 'clamp(1.5rem, 3vw, 2.5rem)', letterSpacing: '-0.02em' }}
           >
-            Order Overview &rarr;
+            Order Overview
           </h2>
           <button
             onClick={openCreate}
