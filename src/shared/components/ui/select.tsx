@@ -43,7 +43,7 @@ function SelectTrigger({
 function SelectContent({ className, children, ...props }: React.ComponentProps<typeof SelectPrimitive.Popup>) {
   return (
     <SelectPrimitive.Portal>
-      <SelectPrimitive.Positioner>
+      <SelectPrimitive.Positioner className="z-50">
         <SelectPrimitive.Popup
           data-slot="select-content"
           className={cn(
