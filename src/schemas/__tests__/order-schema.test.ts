@@ -29,13 +29,13 @@ describe('orderSchema', () => {
     expect(result.success).toBe(false)
   })
 
-  it('rejects non-integer price', () => {
+  it('accepts decimal price', () => {
     const result = orderSchema.safeParse({
       destinationCountry: 'Germany',
       shippingDate: '2025-06-15',
       price: 15.5,
     })
-    expect(result.success).toBe(false)
+    expect(result.success).toBe(true)
   })
 
   it('rejects negative price', () => {

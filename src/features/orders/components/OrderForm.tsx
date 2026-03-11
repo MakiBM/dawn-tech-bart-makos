@@ -40,7 +40,7 @@ function orderToFormValues(order: Order): OrderFormValues {
   return {
     destinationCountry: order.destinationCountry,
     shippingDate: order.shippingDate,
-    price: order.price,
+    price: order.price / 100,
   }
 }
 
@@ -68,7 +68,7 @@ export function OrderForm({ open, onOpenChange, onSubmit, order }: OrderFormProp
   const selectedCountry = watch('destinationCountry')
 
   function handleFormSubmit(values: OrderFormValues) {
-    onSubmit(values)
+    onSubmit({ ...values, price: Math.round(values.price * 100) })
     reset()
   }
 
@@ -119,11 +119,12 @@ export function OrderForm({ open, onOpenChange, onSubmit, order }: OrderFormProp
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="price" className="font-mono text-[11px] uppercase tracking-[0.05em]">Price (cents)</Label>
+            <Label htmlFor="price" className="font-mono text-[11px] uppercase tracking-[0.05em]">Price (USD)</Label>
             <Input
               id="price"
               type="number"
-              min={1}
+              min={0.01}
+              step="0.01"
               {...register('price', { valueAsNumber: true })}
             />
             {errors.price && (

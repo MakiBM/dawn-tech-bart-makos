@@ -6,7 +6,7 @@ export const orderSchema = z.object({
     /^\d{4}-\d{2}-\d{2}$/,
     'Must be a valid date (YYYY-MM-DD)',
   ),
-  price: z.number().int('Price must be a whole number').positive('Price must be positive'),
+  price: z.number().positive('Price must be positive'),
 })
 
 export type OrderFormValues = z.infer<typeof orderSchema>

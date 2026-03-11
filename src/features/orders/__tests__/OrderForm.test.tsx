@@ -61,10 +61,10 @@ describe('OrderForm', () => {
     await user.clear(dateInput)
     await user.type(dateInput, '2025-06-15')
 
-    // Fill price
-    const priceInput = screen.getByLabelText('Price (cents)')
+    // Fill price (dollars — converted to cents on submit)
+    const priceInput = screen.getByLabelText('Price (USD)')
     await user.clear(priceInput)
-    await user.type(priceInput, '1500')
+    await user.type(priceInput, '15')
 
     await user.click(screen.getByRole('button', { name: 'Create Order' }))
 
