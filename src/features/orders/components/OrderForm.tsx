@@ -65,6 +65,8 @@ export function OrderForm({ open, onOpenChange, onSubmit, order }: OrderFormProp
     }
   }, [open, order, reset])
 
+  // watch() is incompatible with React Compiler memoization (react-hooks/incompatible-library).
+  // Acceptable here — this component is a dialog form with no expensive children to memo-skip.
   const selectedCountry = watch('destinationCountry')
 
   function handleFormSubmit(values: OrderFormValues) {
