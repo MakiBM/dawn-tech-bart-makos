@@ -35,7 +35,7 @@ export const useOrderStore = create<OrderState>()(
           updatedAt: now,
         }
 
-        set((s) => ({ orders: [...s.orders, optimistic], error: null }))
+        set((s) => ({ orders: [...s.orders, optimistic], pendingIds: [...s.pendingIds, optimisticId], error: null }))
 
         try {
           const real = await orderService.createOrder(input)
@@ -49,6 +49,8 @@ export const useOrderStore = create<OrderState>()(
             error: e instanceof OrderServiceError ? e.message : 'Something went wrong. Please try again.',
           }))
           throw e
+        } finally {
+          set((s) => ({ pendingIds: s.pendingIds.filter((x) => x !== optimisticId) }))
         }
       },
 
