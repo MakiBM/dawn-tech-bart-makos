@@ -94,7 +94,9 @@ export function OrderForm({ open, onOpenChange, onSubmit, order }: OrderFormProp
             </Label>
             <Select
               value={selectedCountry}
-              onValueChange={(v) => setValue('destinationCountry', v as string, { shouldValidate: true })}
+              onValueChange={(v) =>
+                setValue('destinationCountry', v as string, { shouldValidate: true, shouldDirty: true })
+              }
             >
               <SelectTrigger id="destinationCountry">
                 <SelectValue placeholder="Select a country" />
