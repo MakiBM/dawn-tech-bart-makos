@@ -98,3 +98,13 @@ Tests covering:
 - Dashboard metric selectors (empty state, computation)
 - Component rendering and interaction (OrderForm, OrderTable, ErrorBoundary)
 - Integration: full CRUD cycle with dashboard sync and navigation
+
+## Shortcuts taken
+
+- config files copy pasted from other project
+- dev/ utils copy pasted from other project
+- AI
+  - ui design (source file in .materials/)
+  - copilot inline hints,
+  - copilot chat for larger boilerplate
+  - tests
