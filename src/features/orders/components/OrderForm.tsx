@@ -47,7 +47,7 @@ export function OrderForm({ open, onOpenChange, onSubmit, order }: OrderFormProp
     setValue,
     watch,
     reset,
-    formState: { errors },
+    formState: { errors, isDirty },
   } = useForm<OrderFormValues>({
     resolver: zodResolver(orderSchema),
     defaultValues: emptyDefaults,
@@ -64,6 +64,10 @@ export function OrderForm({ open, onOpenChange, onSubmit, order }: OrderFormProp
   const selectedCountry = watch('destinationCountry')
 
   function handleFormSubmit(values: OrderFormValues) {
+    if (isEdit && !isDirty) {
+      handleOpenChange(false)
+      return
+    }
     onSubmit({ ...values, price: Math.round(values.price * 100) })
     reset()
   }
