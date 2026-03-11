@@ -7,6 +7,9 @@ export type DashboardMetrics = {
   uniqueCountries: number
 }
 
+// Derives dashboard metrics from the orders array on every read.
+// useShallow does a shallow equality check on the returned object so the
+// subscribing component only re-renders when a metric value actually changes.
 export function useDashboardMetrics(): DashboardMetrics {
   return useOrderStore(
     useShallow((s) => {

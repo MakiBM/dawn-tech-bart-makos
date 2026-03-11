@@ -23,6 +23,8 @@ export const useOrderStore = create<OrderState>()(
       error: null,
       pendingIds: [],
 
+      // Optimistic create: insert with a temporary ID so the UI updates instantly,
+      // then swap it for the server-assigned ID on success, or roll back on failure.
       addOrder: async (input) => {
         const optimisticId = nanoid()
         const now = new Date().toISOString()
@@ -41,6 +43,7 @@ export const useOrderStore = create<OrderState>()(
             orders: s.orders.map((o) => (o.id === optimisticId ? real : o)),
           }))
         } catch (e) {
+          // Rollback: remove the optimistic entry
           set((s) => ({
             orders: s.orders.filter((o) => o.id !== optimisticId),
             error: e instanceof OrderServiceError ? e.message : 'Something went wrong. Please try again.',
@@ -49,6 +52,9 @@ export const useOrderStore = create<OrderState>()(
         }
       },
 
+      // Optimistic update: snapshot previous state, apply changes immediately,
+      // then confirm with the service. Rolls back to snapshot on failure.
+      // pendingIds guard prevents concurrent edits on the same order.
       editOrder: async (id, input) => {
         if (get().pendingIds.includes(id)) return
 
@@ -72,6 +78,7 @@ export const useOrderStore = create<OrderState>()(
             orders: s.orders.map((o) => (o.id === id ? real : o)),
           }))
         } catch (e) {
+          // Rollback: restore the snapshot taken before the optimistic write
           set((s) => ({
             orders: s.orders.map((o) => (o.id === id ? prev : o)),
             error: e instanceof OrderServiceError ? e.message : 'Something went wrong. Please try again.',
@@ -82,6 +89,9 @@ export const useOrderStore = create<OrderState>()(
         }
       },
 
+      // Pessimistic delete: keep the order visible (with a pending spinner) until
+      // the service confirms. Only then remove it. On failure the order stays and
+      // an error is shown — no data loss.
       removeOrder: async (id) => {
         if (get().pendingIds.includes(id)) return
 
@@ -111,6 +121,8 @@ export const useOrderStore = create<OrderState>()(
     }),
     {
       name: 'order-storage',
+      // Only persist the orders array — error and pendingIds are ephemeral
+      // and should reset on page reload.
       partialize: (state) => ({ orders: state.orders }),
     },
   ),

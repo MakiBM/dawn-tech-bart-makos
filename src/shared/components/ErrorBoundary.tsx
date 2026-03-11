@@ -24,6 +24,7 @@ export class ErrorBoundary extends Component<Props, State> {
   }
 
   componentDidCatch(error: Error, info: ErrorInfo) {
+    // Production: forward to Sentry via Sentry.captureException(error, { extra: info })
     console.error('ErrorBoundary caught:', error, info)
   }
 
