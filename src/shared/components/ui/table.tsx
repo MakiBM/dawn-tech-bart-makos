@@ -72,4 +72,5 @@ function TableCaption({ className, ...props }: React.ComponentProps<'caption'>) 
   )
 }
 
+/** @public */
 export { Table, TableHeader, TableBody, TableFooter, TableHead, TableRow, TableCell, TableCaption }

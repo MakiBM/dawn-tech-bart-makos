@@ -48,4 +48,5 @@ export const countries = [
   'Vietnam',
 ] as const
 
+/** @public */
 export type Country = (typeof countries)[number]

@@ -118,6 +118,7 @@ function DialogDescription({ className, ...props }: React.ComponentProps<typeof 
   )
 }
 
+/** @public */
 export {
   Dialog,
   DialogClose,

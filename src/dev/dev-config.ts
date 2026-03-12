@@ -1,5 +1,6 @@
 // Dev-only toggles for error simulation and slow network.
 // Controlled by DevToolbar at runtime — no code changes needed to test error UX.
+/** @public */
 export type DevConfig = {
   failNextCreate: boolean
   failNextUpdate: boolean

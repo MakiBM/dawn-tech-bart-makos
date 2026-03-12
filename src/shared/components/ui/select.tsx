@@ -125,6 +125,7 @@ function SelectScrollDownArrow({ className, ...props }: React.ComponentProps<typ
   )
 }
 
+/** @public */
 export {
   Select,
   SelectContent,

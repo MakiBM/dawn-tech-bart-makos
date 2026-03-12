@@ -1,6 +1,7 @@
 import { useShallow } from 'zustand/react/shallow'
 import { useOrderStore } from '@/store'
 
+/** @public */
 export type DashboardMetrics = {
   totalOrders: number
   totalRevenue: number // cents
