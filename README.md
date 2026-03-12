@@ -85,6 +85,10 @@ Three-layer architecture:
 
 ## Production considerations
 
+- React Router vs Next.js - This is a pure client-side SPA so React Router migth be better solution. Picked router
+  for simplicity. Next.js woul dbe good option for more batteries included, Tanstack Start worth checking too
+  (however I have no experience with it yet)
+
 - Zustand vs Redux Toolkit - I would probably like to have some discussion about team preferences. Zustand is agile,
   Redux is more powerful and has more mature ecosystem. However Redux FEELS out of date to me and I noticed similar
   pattern in Vue ecosystem that they moved on from Vuex to Pinia. I locked in Zustand for this demo as a personal
