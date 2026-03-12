@@ -2,6 +2,8 @@
 
 A React-based order management dashboard with full CRUD operations, real-time metric computation, and layered error handling.
 
+<img width="1263" height="699" alt="Screenshot 2026-03-12 at 11 49 44" src="https://github.com/user-attachments/assets/8be5cd1a-c53e-4ee6-9df8-0d6f9f7aa132" />
+
 ## Tech Stack
 
 Framework: React 19 + TypeScript
