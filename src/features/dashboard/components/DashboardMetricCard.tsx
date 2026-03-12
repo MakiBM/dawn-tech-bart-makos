@@ -1,11 +1,11 @@
-type MetricCardProps = {
+type DashboardMetricCardProps = {
   title: string
   value: string
   bottomLeft?: string
   bottomRight?: string
 }
 
-export function MetricCard({ title, value, bottomLeft, bottomRight }: MetricCardProps) {
+export function DashboardMetricCard({ title, value, bottomLeft, bottomRight }: DashboardMetricCardProps) {
   return (
     <div className="border-t border-dark-border pt-6">
       <h3 className="font-mono text-[11px] uppercase tracking-[0.05em] text-dark-muted">{title}</h3>

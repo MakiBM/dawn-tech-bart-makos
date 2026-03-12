@@ -1,8 +1,8 @@
-type EmptyStateProps = {
+type OrderEmptyStateProps = {
   onCreateOrder: () => void
 }
 
-export function EmptyState({ onCreateOrder }: EmptyStateProps) {
+export function OrderEmptyState({ onCreateOrder }: OrderEmptyStateProps) {
   return (
     <div className="py-24">
       <h3

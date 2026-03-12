@@ -8,13 +8,13 @@ import {
 } from '@/shared/components/ui/dialog'
 import { Button } from '@/shared/components/ui/button'
 
-type DeleteConfirmDialogProps = {
+type OrderDeleteDialogProps = {
   open: boolean
   onOpenChange: (open: boolean) => void
   onConfirm: () => void
 }
 
-export function DeleteConfirmDialog({ open, onOpenChange, onConfirm }: DeleteConfirmDialogProps) {
+export function OrderDeleteDialog({ open, onOpenChange, onConfirm }: OrderDeleteDialogProps) {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="bg-cream-bg sm:max-w-sm">

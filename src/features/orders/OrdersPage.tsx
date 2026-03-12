@@ -6,8 +6,8 @@ import { AppHeader } from '@/shared/components/layout/AppHeader'
 import { ErrorBoundary } from '@/shared/components/ErrorBoundary'
 import { OrderTable } from './components/OrderTable'
 import { OrderForm } from './components/OrderForm'
-import { DeleteConfirmDialog } from './components/DeleteConfirmDialog'
-import { EmptyState } from './components/EmptyState'
+import { OrderDeleteDialog } from './components/OrderDeleteDialog'
+import { OrderEmptyState } from './components/OrderEmptyState'
 
 export function OrdersPage() {
   const orders = useOrderStore((s) => s.orders)
@@ -89,7 +89,7 @@ export function OrdersPage() {
 
         <ErrorBoundary>
           {orders.length === 0 ? (
-            <EmptyState onCreateOrder={openCreate} />
+            <OrderEmptyState onCreateOrder={openCreate} />
           ) : (
             <div className="mt-6">
               <OrderTable orders={orders} pendingIds={pendingIds} onEdit={openEdit} onDelete={openDelete} />
@@ -100,7 +100,7 @@ export function OrdersPage() {
 
       <OrderForm open={formOpen} onOpenChange={setFormOpen} onSubmit={handleSubmit} order={editingOrder} />
 
-      <DeleteConfirmDialog
+      <OrderDeleteDialog
         open={!!deletingOrder}
         onOpenChange={(open) => !open && setDeletingOrder(undefined)}
         onConfirm={handleDelete}
