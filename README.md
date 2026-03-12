@@ -26,30 +26,38 @@ pnpm build     # production build
 
 ```
 src/
-  app/                # App shell, router, layouts
-  features/           # Organizing code by features
+  app/                          # App shell, router, layouts
+  features/
     dashboard/
     orders/
   shared/
-    components/ui/     # shadcn/ui primitives
+    components/ui/              # shadcn/ui primitives
     components/layout/
     lib/
-  store/
-  services/          # Async service layer (simulated API)
-  types/
-  dev/               # Dev-only tooling
+  store/index.ts                # Composes slices, applies persist middleware, exports hooks
+  services/                     # Async service layer (simulated API)
+  types/api.ts                  # API contract types (simulates codegen output)
+  dev/                          # Dev-only tooling
 ```
 
-Hybrid structure: feature folders for UI and feature-scoped logic, global folders for cross-feature infrastructure.
-`store/`, `types/`, and `services/` sit at the top level because both `dashboard` and `orders` features consume them
-— nesting them under one feature would create misleading cross-feature imports. Feature-scoped modules (like the Zod
-validation schema, only used by `orders/`) live inside their feature.
+Three-layer architecture:
+
+- API types (`types/api.ts`) - explicit request/response types with all fields spelled out, no utility type
+  derivations. Simulates codegen output from OpenAPI/tRPC so the contract is obvious at a glance.
+
+- Feature-owned slices — each feature owns its store slice (`StateCreator`) and colocated tests. The app-level
+  `store/index.ts` composes slices and applies cross-cutting middleware (persist). Features never import each other's
+  slices directly — they go through the composed store hook.
+
+- Colocated selectors — derived state lives in the feature that consumes it (`dashboard/selectors.ts`), not in the
+  store layer. Keeps the store focused on state + mutations.
 
 ## Key Design Decisions
 
-- Derived metrics via selectors
+- Derived metrics via colocated selectors
   Dashboard stats (total orders, revenue, unique countries) are computed from `orders[]` on read, never stored
-  independently. Uses `useShallow` for render optimization. Impossible to desync with order data.
+  independently. Uses `useShallow` for render optimization. Impossible to desync with order data. Selector lives
+  in `features/dashboard/` — the feature that owns the derived view, not in the store layer.
 
 - Price in cents (integer)
   Avoids floating-point precision bugs in aggregation. Display formatted via `Intl.NumberFormat`.
@@ -58,7 +66,8 @@ validation schema, only used by `orders/`) live inside their feature.
   TypeScript types inferred from schema. React Hook Form uses zodResolver. No type/validation divergence possible.
 
 - localStorage via Zustand persist
-  Only `orders[]` persisted (not loading/error). `partialize` keeps ephemeral state ephemeral.
+  Only `orders[]` persisted (not loading/error). `partialize` keeps ephemeral state ephemeral. Persist is applied
+  at the store composition level (`store/index.ts`), not inside individual slices — slices stay middleware-agnostic.
 
 - Async service layer
   CRUD wrapped in promises with simulated delay. Makes swapping to a real API a single-file change.
@@ -91,10 +100,13 @@ validation schema, only used by `orders/`) live inside their feature.
 Floating toolbar (DEV only) with toggles to force service failures and slow network. Reviewers can verify error UX
 without code changes.
 
+Tests are colocated with the code they exercise — slice tests live in `features/orders/store/__tests__/`,
+selector tests in `features/dashboard/__tests__/`, component tests in their feature's `__tests__/`.
+
 Tests covering:
 
 - Schema validation (valid/invalid inputs)
-- Store CRUD operations and error handling
+- Store slice CRUD operations and error handling
 - Dashboard metric selectors (empty state, computation)
 - Component rendering and interaction (OrderForm, OrderTable, ErrorBoundary)
 - Integration: full CRUD cycle with dashboard sync and navigation

@@ -1,5 +1,5 @@
 import { nanoid } from 'nanoid'
-import type { Order, CreateOrderInput, UpdateOrderInput } from '@/types/order'
+import type { Order, CreateOrderRequest, UpdateOrderRequest } from '@/types/api'
 import { OrderServiceError } from '@/shared/lib/errors'
 import { simulateNetworkDelay, simulateNetworkFailure } from '@/dev/dev-config'
 
@@ -16,24 +16,24 @@ function serviceError(operation: string): OrderServiceError {
 // Simulated API — each function mirrors a real REST endpoint signature.
 // Swap this file for an HTTP client to connect to a real backend.
 
-export async function createOrder(input: CreateOrderInput): Promise<Order> {
+export async function createOrder(request: CreateOrderRequest): Promise<Order> {
   await simulateNetworkDelay()
   simulateNetworkFailure('failNextCreate', serviceError('create'))
   const now = new Date().toISOString()
   return {
     id: nanoid(),
-    ...input,
+    ...request,
     createdAt: now,
     updatedAt: now,
   }
 }
 
-export async function updateOrder(order: Order, input: UpdateOrderInput): Promise<Order> {
+export async function updateOrder(order: Order, request: UpdateOrderRequest): Promise<Order> {
   await simulateNetworkDelay()
   simulateNetworkFailure('failNextUpdate', serviceError('update'))
   return {
     ...order,
-    ...input,
+    ...request,
     updatedAt: new Date().toISOString(),
   }
 }

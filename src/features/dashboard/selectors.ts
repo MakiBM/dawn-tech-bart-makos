@@ -1,5 +1,5 @@
 import { useShallow } from 'zustand/react/shallow'
-import { useOrderStore } from './order-store'
+import { useOrderStore } from '@/store'
 
 export type DashboardMetrics = {
   totalOrders: number

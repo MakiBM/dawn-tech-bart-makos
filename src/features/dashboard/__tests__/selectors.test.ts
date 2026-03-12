@@ -1,6 +1,6 @@
 import { describe, it, expect, beforeEach } from 'vitest'
 import { renderHook } from '@testing-library/react'
-import { useOrderStore } from '../order-store'
+import { useOrderStore } from '@/store'
 import { useDashboardMetrics } from '../selectors'
 
 describe('useDashboardMetrics', () => {

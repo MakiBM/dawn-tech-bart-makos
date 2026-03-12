@@ -1,6 +1,6 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest'
-import { useOrderStore } from '../order-store'
-import type { Order, CreateOrderInput, UpdateOrderInput } from '@/types/order'
+import { useOrderStore } from '@/store'
+import type { Order, CreateOrderRequest, UpdateOrderRequest } from '@/types/api'
 import * as orderService from '@/services/order-service'
 import { OrderServiceError } from '@/shared/lib/errors'
 
@@ -14,25 +14,25 @@ const mockCreate = vi.mocked(orderService.createOrder)
 const mockUpdate = vi.mocked(orderService.updateOrder)
 const mockDelete = vi.mocked(orderService.deleteOrder)
 
-function fakeOrder(input: CreateOrderInput): Order {
+function fakeOrder(request: CreateOrderRequest): Order {
   return {
     id: 'server-id-1',
-    ...input,
+    ...request,
     createdAt: '2025-01-01T00:00:00.000Z',
     updatedAt: '2025-01-01T00:00:00.000Z',
   }
 }
 
-function fakeUpdated(order: Order, input: UpdateOrderInput): Order {
-  return { ...order, ...input, updatedAt: '2025-01-02T00:00:00.000Z' }
+function fakeUpdated(order: Order, request: UpdateOrderRequest): Order {
+  return { ...order, ...request, updatedAt: '2025-01-02T00:00:00.000Z' }
 }
 
 describe('orderStore', () => {
   beforeEach(() => {
     useOrderStore.setState({ orders: [], error: null, pendingIds: [] })
     vi.clearAllMocks()
-    mockCreate.mockImplementation(async (input) => fakeOrder(input))
-    mockUpdate.mockImplementation(async (order, input) => fakeUpdated(order, input))
+    mockCreate.mockImplementation(async (request) => fakeOrder(request))
+    mockUpdate.mockImplementation(async (order, request) => fakeUpdated(order, request))
     mockDelete.mockImplementation(async () => {})
   })
 

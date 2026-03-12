@@ -1,4 +1,4 @@
-import type { Order } from '@/types/order'
+import type { Order } from '@/types/api'
 import { Table, TableBody, TableHead, TableHeader, TableRow } from '@/shared/components/ui/table'
 import { OrderTableRow } from './OrderTableRow'
 

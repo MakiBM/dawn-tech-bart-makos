@@ -1,4 +1,4 @@
-import { useDashboardMetrics } from '@/store/selectors'
+import { useDashboardMetrics } from '@/features/dashboard/selectors'
 import { formatCurrency } from '@/shared/lib/format'
 import { MetricCard } from './MetricCard'
 

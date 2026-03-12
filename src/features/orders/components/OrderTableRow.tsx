@@ -1,5 +1,5 @@
 import { Loader2, Pencil, Trash2 } from 'lucide-react'
-import type { Order } from '@/types/order'
+import type { Order } from '@/types/api'
 import { formatCurrency, formatDate } from '@/shared/lib/format'
 import { TableCell, TableRow } from '@/shared/components/ui/table'
 import { Button } from '@/shared/components/ui/button'

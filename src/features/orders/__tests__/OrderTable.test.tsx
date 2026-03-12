@@ -2,7 +2,7 @@ import { describe, it, expect, vi } from 'vitest'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { OrderTable } from '../components/OrderTable'
-import type { Order } from '@/types/order'
+import type { Order } from '@/types/api'
 
 const orders: Order[] = [
   {

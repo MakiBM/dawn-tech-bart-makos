@@ -8,6 +8,14 @@ export type Order = {
   updatedAt: string
 }
 
-export type CreateOrderInput = Omit<Order, 'id' | 'createdAt' | 'updatedAt'>
+export type CreateOrderRequest = {
+  destinationCountry: string
+  shippingDate: string
+  price: number
+}
 
-export type UpdateOrderInput = Partial<CreateOrderInput>
+export type UpdateOrderRequest = {
+  destinationCountry?: string
+  shippingDate?: string
+  price?: number
+}
