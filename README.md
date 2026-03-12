@@ -40,18 +40,6 @@ src/
   dev/                          # Dev-only tooling
 ```
 
-Three-layer architecture:
-
-- API types (`types/api.ts`) - explicit request/response types with all fields spelled out, no utility type
-  derivations. Simulates codegen output from OpenAPI/tRPC so the contract is obvious at a glance.
-
-- Feature-owned slices — each feature owns its store slice (`StateCreator`) and colocated tests. The app-level
-  `store/index.ts` composes slices and applies cross-cutting middleware (persist). Features never import each other's
-  slices directly — they go through the composed store hook.
-
-- Colocated selectors — derived state lives in the feature that consumes it (`dashboard/selectors.ts`), not in the
-  store layer. Keeps the store focused on state + mutations.
-
 ## Key Design Decisions
 
 - Derived metrics via colocated selectors
